@@ -1,0 +1,206 @@
+datasource db {
+  provider = "mysql"
+  url = "***"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum RandomPerson {
+  ALLY
+  PICKPOCKET
+  SPHINX
+  GUARD
+  VILLAGER
+}
+
+enum RandomChance {
+  JAIL
+  BRIBE
+  BOUNTY
+}
+
+enum TileType {
+  STORY
+  LEVEL
+  RAND_PERSON
+  RAND_CHANCE
+  GO
+  JAIL
+  GATE
+  GATEI
+  MYSTERY
+  CENTER
+}
+
+model User {
+  id              Int       @id @default(autoincrement())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt @default(now())
+  email           String    @unique
+  emailVerified   Boolean   @default(false)
+  username        String    @unique
+  timesPassedGo   Int       @default(1)
+  name            String?
+  password        String?
+  discord         String    @unique
+  discordVerified Boolean   @default(false)
+  edu             String?
+  points          Int       @default(0)
+  admin           Boolean   @default(false)
+  incarcerated    Boolean   @default(false)
+  incarceratedAt  DateTime?
+  bountyBanned    Boolean   @default(false)
+  dqed            Boolean   @default(false)
+  hasHintCard     Boolean   @default(false)
+  currentTileId   Int
+  currentTile     Tile      @relation(fields: [currentTileId], references: [id])
+
+  inventory     Inventory[]
+  logs          Log[]
+  levels        UserLevel[]
+  riddles       UserRiddle[]
+  visitedTiles  VisitedTile[]
+  levelAttempt  LevelAttempt[]
+  riddleAttempt RiddleAttempt[]
+}
+
+model Tile {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  type      TileType
+  number    Int?     @unique
+
+  // Level tile
+  levelId Int?
+  level   Level? @relation(fields: [levelId], references: [id])
+
+  // Story tile
+  story Json?
+
+  visits      VisitedTile[]
+  usersOnTile User[]
+}
+
+model VisitedTile {
+  id               Int           @id @default(autoincrement())
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt @default(now())
+  userId           Int
+  user             User          @relation(fields: [userId], references: [id])
+  tileId           Int
+  tile             Tile          @relation(fields: [tileId], references: [id])
+  guardPassed      Boolean?
+  randomPersonType RandomPerson?
+  riddleId         Int?
+  riddle           Riddle?       @relation(fields: [riddleId], references: [id])
+  randomChanceType RandomChance?
+  UserRiddle       UserRiddle[]
+}
+
+model Level {
+  id           Int            @id @default(autoincrement())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt @default(now())
+  level        Json
+  points       Int
+  answer       String
+  userLvls     UserLevel[]
+  tiles        Tile[]
+  LevelAttempt LevelAttempt[]
+}
+
+model UserLevel {
+  id          Int            @id @default(autoincrement())
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt @default(now())
+  userId      Int
+  user        User           @relation(fields: [userId], references: [id])
+  levelId     Int
+  level       Level          @relation(fields: [levelId], references: [id])
+  completed   Boolean        @default(false)
+  completedAt DateTime?
+  attempts    LevelAttempt[]
+}
+
+model Riddle {
+  id            Int             @id @default(autoincrement())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt @default(now())
+  riddle        Json
+  answer        String
+  points        Int
+  completed     UserRiddle[]
+  tiles         VisitedTile[]
+  RiddleAttempt RiddleAttempt[]
+}
+
+model LevelAttempt {
+  id          Int        @id @default(autoincrement())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt @default(now())
+  levelId     Int
+  level       Level      @relation(fields: [levelId], references: [id])
+  userId      Int
+  user        User       @relation(fields: [userId], references: [id])
+  attempt     String
+  UserLevel   UserLevel? @relation(fields: [userLevelId], references: [id])
+  userLevelId Int?
+}
+
+model UserRiddle {
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt @default(now())
+  userId      Int
+  user        User        @relation(fields: [userId], references: [id])
+  riddleId    Int
+  riddle      Riddle      @relation(fields: [riddleId], references: [id])
+  completed   Boolean     @default(false)
+  completedAt DateTime?
+  tileId      Int
+  tile        VisitedTile @relation(fields: [tileId], references: [id])
+}
+
+model RiddleAttempt {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  riddleId  Int
+  riddle    Riddle   @relation(fields: [riddleId], references: [id])
+  attempt   String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model GameConfig {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  key       String   @unique
+  value     Json
+}
+
+model Inventory {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  hex       String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  item      String
+  used      Boolean  @default(false)
+}
+
+model Log {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  log       Json
+  adminOnly Boolean  @default(false)
+  flagged   Boolean  @default(false)
+}
