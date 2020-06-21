@@ -12,6 +12,7 @@
   "dependencies": {
     "@prisma/client": "^2.0.1",
     "@sentry/node": "^5.17.0",
+    "aws-serverless-express": "^3.3.8",
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
     "compression": "^1.7.4",

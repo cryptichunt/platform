@@ -1,0 +1,10 @@
+{
+  "lambda": {
+    "role": "backend-executor",
+    "name": "backend",
+    "region": "ap-south-1"
+  },
+  "api": {
+    "id": "a92op9y6dj"
+  }
+}

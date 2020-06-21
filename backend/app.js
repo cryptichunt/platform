@@ -11,6 +11,7 @@ const crypto = require("crypto");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const Sentry = require("@sentry/node");
+const app = express();
 
 Sentry.init({ dsn: process.env.SENTRY_DSN });
 const RedisStore = connectRedis(session);
