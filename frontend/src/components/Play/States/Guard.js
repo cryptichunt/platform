@@ -54,6 +54,7 @@ export default ({ selectedTile, setSelectedTile, setUser }) => {
     <Container>
       <Heading>Guard</Heading>
       <ButtonContainer>
+        {/* TODO: add confirmation */}
         <Button disabled={sub} onClick={handleBribe}>
           Bribe
         </Button>

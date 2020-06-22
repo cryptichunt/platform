@@ -191,6 +191,7 @@ class Level extends React.Component {
             >
               Submit
             </Button>
+            {/* TODO: add confirmation */}
             <Button
               onClick={this.handleSkip.bind(this)}
               disabled={this.state.submitting || this.props.user?.points < 351}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import RegistrationSchema from "../../backend/api/auth/register-schema";
+import RegistrationSchema from "./register-schema";
 import { Formik, Form } from "formik";
 import { useGoogleReCaptcha as useRecaptcha } from "react-google-recaptcha-v3";
 import { ButtonContainer, Button, Field } from "../forms";
@@ -30,6 +30,7 @@ export default () => {
             shallow: true,
           });
         } else {
+          // TODO: show formErr
           setFormErr(message);
           setSubmitting(false);
         }

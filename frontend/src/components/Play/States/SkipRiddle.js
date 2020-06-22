@@ -47,6 +47,7 @@ export default ({ setUser, setSelectedTile }) => {
   return (
     <Container>
       <ButtonContainer>
+        {/* TODO: add confirmation */}
         <Button disabled={sub} onClick={handleMove}>
           Skip Riddle
         </Button>

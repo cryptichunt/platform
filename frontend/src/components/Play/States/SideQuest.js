@@ -18,7 +18,7 @@ const Heading = styled.div`
   margin-bottom: 30px;
 `;
 
-export const handleMove = (setUser, setSelectedTile) => async () => {
+export const handleMove = (setUser, setSelectedTile, setSub) => async () => {
   setSub(true);
   const mv = await (await fetch("/api/play/move", { method: "post" })).json();
   setUser(mv.user);

@@ -1,16 +1,22 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import * as yup from "yup";
-import { Formik, Form, Field as FormikField } from "formik";
+import { Formik, Form } from "formik";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useToasts } from "react-toast-notifications";
 import { ButtonContainer, Button, Field } from "../forms";
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 export default () => {
-  const history = useHistory();
+  const router = useHistory();
+  const query = useQuery();
+  const [formErr, setFormErr] = useState();
   const { addToast } = useToasts();
   const { executeRecaptcha } = useGoogleReCaptcha();
-  const { fromreg } = router.query;
+  const fromreg = query.get("fromreg");
 
   React.useEffect(() => {
     if (fromreg) {
@@ -36,10 +42,12 @@ export default () => {
       .then((resp) => resp.json())
       .then(({ success, message }) => {
         if (success) {
-          history.push("/play?fromlogin=true", "/play?fromlogin=true", {
+          router.push("/play?fromlogin=true", "/play?fromlogin=true", {
             shallow: true,
           });
         } else {
+          // TODO: Show formErr
+          setFormErr(message);
           addToast(message, { appearance: "error" });
           setSubmitting(false);
         }

@@ -53,6 +53,7 @@ const NavLogoContainer = styled.div`
   box-shadow: rgba(256, 256, 256, 0.07) 0px 4px 30px;
   border-radius: 3px; */
   margin: 0 20px;
+  text-decoration: none;
 
   @media screen and (max-width: 850px) {
     display: ${(props) => (props.mobile ? "flex" : "none")};
@@ -78,7 +79,15 @@ const NavLinkComponent = styled.a`
   cursor: pointer;
 `;
 
-const Link = ({ to, children }) => <RouterLink to={to}>{children}</RouterLink>;
+const Link = ({ to, children }) => (
+  <RouterLink
+    to={to}
+    component={NavLinkComponent}
+    style={{ textDecoration: "none" }}
+  >
+    {children}
+  </RouterLink>
+);
 
 const NavLogo = ({ mobile }) => (
   <NavLogoContainer mobile={mobile}>
@@ -172,7 +181,7 @@ const AuthenticatedNav = ({ handleClose }) => {
 
   return (
     <>
-      <NavLink to="/leaderboard">Leaderboard</NavLink>
+      <Link to="/leaderboard">Leaderboard</Link>
       <Link to="/">Rules</Link>
       <NavLogo />
       <Link to="/play">Play</Link>

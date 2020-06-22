@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "createscripts": "chmod a+x bin/*",
+    "serve": "./bin/serve",
+    "start": "./bin/serve",
+    "serve:dev": "nodemon bin/serve"
   },
   "keywords": [],
   "author": "",

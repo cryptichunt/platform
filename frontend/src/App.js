@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Helmet as Head } from "react-helmet";
 import { ToastProvider } from "react-toast-notifications";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
-import AuthContext from "../../lib/auth-context";
+import AuthContext from "./lib/auth-context";
 import Navbar from "./components/Layout/Navbar";
-import FaviconPng from "../../assets/favicon.png";
+import FaviconPng from "./assets/favicon.png";
 
 import Home from "./pages/index";
 import VerifyEmail from "./pages/verify/email";
@@ -14,7 +14,7 @@ import Leaderboard from "./pages/leaderboard";
 import Logs from "./pages/logs";
 import Play from "./pages/play";
 import Register from "./pages/register";
-import Signin from "./pages/Login";
+import Signin from "./pages/signin";
 
 const GlobalStyles = createGlobalStyle`
   html,
@@ -47,13 +47,6 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-const ContentContainer = styled.div`
-  min-height: 90vh;
-  width: 100%;
-  position: relative;
-  z-index: 1000;
-`;
-
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState({});
@@ -79,20 +72,18 @@ function App() {
             <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
             <title>Cryptocracy 2020</title>
           </Head>
-          <Navbar authenticated={authenticated} />
-          <ContentContainer>
-            <Router>
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/verify/email" component={VerifyEmail} />
-                <Route exact path="/leaderboard" component={Leaderboard} />
-                <Route exact path="/logs" component={Logs} />
-                <Route exact path="/play" component={Play} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/signin" component={Signin} />
-              </Switch>
-            </Router>
-          </ContentContainer>
+          <Router>
+            <Navbar authenticated={authenticated} />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/verify/email" component={VerifyEmail} />
+              <Route exact path="/leaderboard" component={Leaderboard} />
+              <Route exact path="/logs" component={Logs} />
+              <Route exact path="/play" component={Play} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/signin" component={Signin} />
+            </Switch>
+          </Router>
           {/* TODO: add a footer */}
         </GoogleReCaptchaProvider>
       </ToastProvider>

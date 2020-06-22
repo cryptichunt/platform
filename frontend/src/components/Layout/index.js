@@ -1,7 +1,15 @@
 import React from "react";
+import styled from "styled-components";
 import { Helmet as Head } from "react-helmet";
 
 import AuthCheck from "./AuthCheck";
+
+const ContentContainer = styled.div`
+  min-height: 90vh;
+  width: 100%;
+  position: relative;
+  z-index: 1000;
+`;
 
 export default ({
   title,

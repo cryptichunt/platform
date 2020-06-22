@@ -34,6 +34,7 @@ export default ({ setSelectedTile, setUser }) => {
   return (
     <Container>
       <Heading>You are in Jail</Heading>
+      {/* TODO: add confirmation */}
       <Button onClick={handleBribe} disabled={sub}>
         Bribe and Escape
       </Button>
