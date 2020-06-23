@@ -29,6 +29,10 @@ router.use(async (req, res, next) => {
 
 router.post("/bribe", async (req, res, next) => {
   try {
+    if (req.user.points < 126) {
+      return res.json({ success: true, message: "not enough points" });
+    }
+
     await client.user.update({
       where: { id: req.user.id },
       data: { points: req.user.points - 125 },
@@ -89,8 +93,7 @@ router.post("/fight", async (req, res, next) => {
         success: true,
         won: false,
         message: "You fought the guard and lost",
-        user: req.user,
-        // user: newUser,
+        user: newUser,
       });
     }
 

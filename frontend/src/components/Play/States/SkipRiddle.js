@@ -63,7 +63,7 @@ export default ({ setUser, setSelectedTile, setReload, reload }) => {
   return (
     <Container>
       <ButtonContainer>
-        {/* TODO: add confirmation */}
+        {/* TODO: add confirmation, "you will not see this riddle again and will not be able to gain extra points" */}
         <Button disabled={sub} onClick={handleMove}>
           Skip Riddle
         </Button>

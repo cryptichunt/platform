@@ -44,7 +44,7 @@ export default ({ setSelectedTile, setUser, reload, setReload }) => {
   return (
     <Container>
       <Heading>You are in Jail</Heading>
-      {/* TODO: add confirmation */}
+      {/* TODO: add confirmation, this costs 50 points */}
       <Button onClick={handleBribe} disabled={sub}>
         Bribe and Escape
       </Button>

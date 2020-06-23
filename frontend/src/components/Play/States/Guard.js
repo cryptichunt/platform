@@ -25,6 +25,7 @@ const ButtonContainer = styled.div`
 export default ({
   selectedTile,
   setSelectedTile,
+  user,
   setUser,
   reload,
   setReload,
@@ -86,8 +87,8 @@ export default ({
     <Container>
       <Heading>Guard</Heading>
       <ButtonContainer>
-        {/* TODO: add confirmation */}
-        <Button disabled={sub} onClick={handleBribe}>
+        {/* TODO: add confirmation, this costs 125 points */}
+        <Button disabled={sub || user.points < 126} onClick={handleBribe}>
           Bribe
         </Button>
         <Button disabled={sub} onClick={handleFight}>
