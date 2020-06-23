@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useToasts } from "react-toast-notifications";
 import tiles from "./tile-data";
 import Middle from "./middle";
 
@@ -23,7 +24,8 @@ export const Random = styled.div`
 `;
 
 export const Tile = styled.div`
-  --color: ${(props) => (props.selected ? "#2977f5" : "#545454")};
+  --color: ${(props) =>
+    props.selected ? "#2977f5" : props.visited ? "#3a3a3a" : "#545454"};
 
   border: 2px solid var(--color);
   color: var(--color);
@@ -35,6 +37,7 @@ export const Tile = styled.div`
   justify-content: flex-start;
   align-items: flex-end;
   padding: 5px;
+  cursor: ${(props) => (props.pointer ? "pointer" : "default")};
 
   @media screen and (max-width: 930px) {
     font-size: 0.8rem;
@@ -47,9 +50,28 @@ const shorten = {
   RAND_PERSON: "RP",
   RAND_CHANCE: "RC",
   STORY: "ST",
+  GATEI: "GT",
 };
 
-export const RenderTiles = ({ selectedTile }) => {
+export const RenderTiles = ({ selectedTile, vTiles }) => {
+  const { addToast } = useToasts();
+
+  const handleClick = (t, visited, i) => async () => {
+    try {
+      if (t.type !== "STORY" || !visited) return;
+
+      const r = await (await fetch(`/api/play/story/${i + 1}`)).json();
+
+      if (r.tile?.story) {
+        // TODO: show in modal
+      }
+
+      console.log({ tile: r });
+    } catch (e) {
+      addToast(e.message, { appearance: "error" });
+    }
+  };
+
   return (
     <>
       {tiles.map((t, i) =>
@@ -58,6 +80,9 @@ export const RenderTiles = ({ selectedTile }) => {
             style={{ gridArea: t.gridArea }}
             key={i}
             selected={selectedTile === i}
+            visited={vTiles.indexOf(i + 1) !== -1}
+            pointer={vTiles.indexOf(i + 1) !== -1 && t.type === "STORY"}
+            onClick={handleClick(t, vTiles.indexOf(i + 1) !== -1, i)}
           >
             {/* TODO: add icon based on type */}
             {t.number} {shorten[t.type]}
@@ -69,6 +94,7 @@ export const RenderTiles = ({ selectedTile }) => {
             style={{ gridArea: t.gridArea }}
             key={i}
             selected={selectedTile === i}
+            visited={vTiles.indexOf(i + 1) !== -1}
           >
             {t.type.substring(0, 4)}
           </Random>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useToasts } from "react-toast-notifications";
 import { Button } from "../../forms";
 import Story from "../Widgets/story";
 
@@ -11,18 +12,39 @@ const ButtonContainer = styled.div`
   align-items: center;
 `;
 
-export const handleMove = (setUser, setSelectedTile, setSub) => async () => {
+export const handleMove = (
+  setUser,
+  setSelectedTile,
+  setSub,
+  addToast,
+  reload,
+  setReload
+) => async () => {
   setSub(true);
   const mv = await (await fetch("/api/play/move", { method: "post" })).json();
   setUser(mv.user);
   setSelectedTile(mv.user.currentTileId - 1);
-  console.log({ mv });
+
+  if (mv.success) {
+    addToast(mv.message, { appearance: "success" });
+  } else {
+    addToast(mv.message, { appearance: "error" });
+  }
+
+  setReload(!reload);
   setSub(false);
 };
 
-export default ({ setUser, setSelectedTile, selectedTile }) => {
+export default ({
+  setUser,
+  setSelectedTile,
+  selectedTile,
+  reload,
+  setReload,
+}) => {
   const [story, setStory] = useState("");
   const [sub, setSub] = useState(false);
+  const { addToast } = useToasts();
 
   useEffect(() => {
     async function f() {
@@ -42,7 +64,14 @@ export default ({ setUser, setSelectedTile, selectedTile }) => {
     <>
       <ButtonContainer>
         <Button
-          onClick={handleMove(setUser, setSelectedTile, setSub)}
+          onClick={handleMove(
+            setUser,
+            setSelectedTile,
+            setSub,
+            addToast,
+            reload,
+            setReload
+          )}
           disabled={sub}
         >
           Move

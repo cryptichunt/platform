@@ -11,6 +11,10 @@ router.use(auth.check);
 router.use(auth.canPlay);
 
 // TODO
-router.post("/buy", async (req, res, next) =>
-  res.json({ success: true, message: "TODO" })
-);
+router.post("/buy", async (req, res, next) => {
+  try {
+    res.json({ success: true, message: "TODO" });
+  } catch (e) {
+    return next(e);
+  }
+});

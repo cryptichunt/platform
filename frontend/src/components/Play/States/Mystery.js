@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useToasts } from "react-toast-notifications";
 import { Button } from "../../forms";
 
 const ButtonContainer = styled.div`
@@ -18,17 +19,38 @@ const Heading = styled.div`
   margin-bottom: 30px;
 `;
 
-export const handleMove = (setUser, setSelectedTile, setSub) => async () => {
+export const handleMove = (
+  setUser,
+  setSelectedTile,
+  setSub,
+  addToast,
+  reload,
+  setReload
+) => async () => {
   setSub(true);
   const mv = await (await fetch("/api/play/move", { method: "post" })).json();
   setUser(mv.user);
   setSelectedTile(mv.user.currentTileId - 1);
-  console.log({ mv });
+
+  if (mv.success) {
+    addToast(mv.message, { appearance: "success" });
+  } else {
+    addToast(mv.message, { appearance: "error" });
+  }
+
+  setReload(!reload);
   setSub(false);
 };
 
-export default ({ setUser, setSelectedTile, mysteryTileOpen }) => {
+export default ({
+  setUser,
+  setSelectedTile,
+  mysteryTileOpen,
+  reload,
+  setReload,
+}) => {
   const [sub, setSub] = useState(false);
+  const { addToast } = useToasts();
 
   return (
     <ButtonContainer>
@@ -38,7 +60,14 @@ export default ({ setUser, setSelectedTile, mysteryTileOpen }) => {
           : "The mystery tile is closed! Please move forward"}
       </Heading>
       <Button
-        onClick={handleMove(setUser, setSelectedTile, setSub)}
+        onClick={handleMove(
+          setUser,
+          setSelectedTile,
+          setSub,
+          addToast,
+          reload,
+          setReload
+        )}
         disabled={sub}
       >
         Move

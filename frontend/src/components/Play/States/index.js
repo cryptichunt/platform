@@ -3,6 +3,7 @@ import Move from "./Move";
 import Level from "../Widgets/level";
 import MoveWithStory from "./MoveWithStory";
 import Gate from "./Gate";
+import GateI from "./GateI";
 import SkipRiddle from "./SkipRiddle";
 import Riddle from "./Riddle";
 import Guard from "./Guard";
@@ -28,6 +29,8 @@ export default {
   jail: Jail,
   "jailvisiting-moveable": Move,
   "gate-moveable": Gate,
+  "gatei-moveable": GateI,
   "mystery-moveable": Mystery,
   center: Level,
+  // TODO: gatei-moveable
 };

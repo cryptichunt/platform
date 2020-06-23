@@ -55,7 +55,7 @@ function App() {
     <AuthContext.Provider
       value={{ authenticated, user, setAuthenticated, setUser }}
     >
-      <ToastProvider autoDismiss={true} autoDismissTimeout={2500}>
+      <ToastProvider autoDismiss={true} autoDismissTimeout={5000}>
         <GoogleReCaptchaProvider reCaptchaKey="6Ldy1AAVAAAAAIfWgWGpIWN-GRPJPL3qlUilitZe">
           <GlobalStyles />
           <Head>

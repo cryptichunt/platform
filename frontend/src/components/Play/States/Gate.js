@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useToasts } from "react-toast-notifications";
 import { Button } from "../../forms";
 
 const Container = styled.div`
@@ -21,9 +22,16 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
 `;
 
-export default ({ selectedTile, setSelectedTile, setUser }) => {
+export default ({
+  selectedTile,
+  setSelectedTile,
+  setUser,
+  reload,
+  setReload,
+}) => {
   const [allowedIn, setAllowedIn] = useState(false);
   const [sub, setSub] = useState(false);
+  const { addToast } = useToasts();
 
   useEffect(() => {
     async function f() {
@@ -37,17 +45,28 @@ export default ({ selectedTile, setSelectedTile, setUser }) => {
     }
 
     f();
-  });
+  }, []);
 
   const handleMove = (goIn, setSub) => async () => {
     setSub(true);
     const mv = await (
       await fetch("/api/play/move", {
         method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ goIn }),
       })
     ).json();
+
+    if (mv.success) {
+      addToast(mv.message, { appearance: "success" });
+    } else {
+      addToast(mv.message, { appearance: "error" });
+    }
+
     setUser(mv.user);
+    setReload(!reload);
     setSelectedTile(mv.user.currentTileId - 1);
     console.log({ mv });
     setSub(false);

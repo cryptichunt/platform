@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useToasts } from "react-toast-notifications";
 import { Button } from "../../forms";
 
 const Container = styled.div`
@@ -14,8 +15,9 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
 `;
 
-export default ({ setUser, setSelectedTile }) => {
+export default ({ setUser, setSelectedTile, setReload, reload }) => {
   const [sub, setSub] = useState(false);
+  const { addToast } = useToasts();
 
   const handleMove = async () => {
     setSub(true);
@@ -27,7 +29,14 @@ export default ({ setUser, setSelectedTile }) => {
     ).json();
     setUser(mv.user);
     setSelectedTile(mv.user.currentTileId - 1);
-    console.log({ mv });
+
+    if (mv.success) {
+      addToast(mv.message, { appearance: "success" });
+    } else {
+      addToast(mv.message, { appearance: "error" });
+    }
+
+    setReload(!reload);
     setSub(false);
   };
 
@@ -40,7 +49,14 @@ export default ({ setUser, setSelectedTile }) => {
     ).json();
     setUser(mv.user);
     setSelectedTile(mv.user.currentTileId - 1);
-    console.log({ mv });
+
+    if (mv.success) {
+      addToast(mv.message, { appearance: "success" });
+    } else {
+      addToast(mv.message, { appearance: "error" });
+    }
+
+    setReload(!reload);
     setSub(false);
   };
 

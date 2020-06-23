@@ -112,6 +112,7 @@ class Riddle extends React.Component {
       }
 
       this.setState({ answer: "" });
+      this.props.setReload(!this.props.reload);
 
       if (r.success) {
         this.props.toastManager.add("Riddle solved", {

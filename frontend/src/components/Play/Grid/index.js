@@ -66,6 +66,8 @@ export default () => {
   );
   const [userState, setUserState] = useState("");
   const [mysteryTileOpen, setMysteryTileOpen] = useState(false);
+  const [vTiles, setVTiles] = useState([]);
+  const [reload, setReload] = useState(false);
 
   React.useEffect(() => {
     async function ftch() {
@@ -74,11 +76,13 @@ export default () => {
       console.log({ r });
 
       setUserState(r.userState);
+      setSelectedTile(r.user.currentTileId - 1);
       setMysteryTileOpen(r.mysteryOpen);
+      setVTiles(r.vTiles);
     }
 
     ftch();
-  });
+  }, [reload]);
 
   const Component = UserStates[userState];
 
@@ -87,7 +91,9 @@ export default () => {
       <Points>Points: {user?.points}</Points>
       <XScrollable>
         <Container>
-          <RenderTiles {...{ selectedTile, setSelectedTile }} />
+          <RenderTiles
+            {...{ selectedTile, setSelectedTile, vTiles, reload, setReload }}
+          />
         </Container>
       </XScrollable>
       <Component
@@ -96,6 +102,8 @@ export default () => {
         setSelectedTile={setSelectedTile}
         selectedTile={selectedTile}
         mysteryTileOpen={mysteryTileOpen}
+        reload={reload}
+        setReload={setReload}
       />
     </>
   );

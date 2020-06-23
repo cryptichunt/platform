@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useToasts } from "react-toast-notifications";
 import { Button } from "../../forms";
 
 const Container = styled.div`
@@ -15,8 +16,9 @@ const Heading = styled.div`
   margin-bottom: 20px;
 `;
 
-export default ({ setSelectedTile, setUser }) => {
+export default ({ setSelectedTile, setUser, reload, setReload }) => {
   const [sub, setSub] = useState(false);
+  const { addToast } = useToasts();
 
   const handleBribe = async () => {
     setSub(true);
@@ -25,7 +27,15 @@ export default ({ setSelectedTile, setUser }) => {
         method: "post",
       })
     ).json();
+
+    if (mv.success) {
+      addToast(mv.message, { appearance: "success" });
+    } else {
+      addToast(mv.message, { appearance: "error" });
+    }
+
     setUser(mv.user);
+    setReload(!reload);
     setSelectedTile(mv.user.currentTileId - 1);
     console.log({ mv });
     setSub(false);

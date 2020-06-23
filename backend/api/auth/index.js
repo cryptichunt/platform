@@ -34,29 +34,13 @@ router.post("/login", recaptcha.verify(), (req, res, next) =>
   })(req, res, next)
 );
 
-router.post("/me", async (req, res, next) => {
-  try {
-    if (req.user) {
-      const dt = new Date(req.user.incarceratedAt).getTime();
-      const hour = 30 * 60 * 1000;
-      const now = Date.now();
-      if (now < dt + hour) {
-        await client.user.update({
-          where: { id: req.user.id },
-          data: { incarcerated: false, incarceratedAt: null },
-        });
-      }
-    }
-
-    return res.json({
-      success: true,
-      authenticated: req.isAuthenticated(),
-      user: req.user,
-    });
-  } catch (e) {
-    return next(e);
-  }
-});
+router.post("/me", async (req, res, next) =>
+  res.json({
+    success: true,
+    authenticated: req.isAuthenticated(),
+    user: req.user,
+  })
+);
 
 router.get("/logout", (req, res) => {
   req.logOut();

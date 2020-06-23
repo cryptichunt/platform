@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useToasts } from "react-toast-notifications";
 import { Button } from "../../forms";
 
 const Container = styled.div`
@@ -21,8 +22,15 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
 `;
 
-export default ({ selectedTile, setSelectedTile, setUser }) => {
+export default ({
+  selectedTile,
+  setSelectedTile,
+  setUser,
+  reload,
+  setReload,
+}) => {
   const [sub, setSub] = useState(false);
+  const { addToast } = useToasts();
 
   const handleBribe = async () => {
     setSub(true);
@@ -31,8 +39,20 @@ export default ({ selectedTile, setSelectedTile, setUser }) => {
         method: "post",
       })
     ).json();
+
+    if (mv.success) {
+      if (mv.message.match(/lost/)) {
+        addToast(mv.message, { appearance: "error" });
+      } else {
+        addToast(mv.message, { appearance: "success" });
+      }
+    } else {
+      addToast(mv.message, { appearance: "error" });
+    }
+
     setUser(mv.user);
     setSelectedTile(mv.user.currentTileId - 1);
+    setReload(!reload);
     console.log({ mv });
     setSub(false);
   };
@@ -44,7 +64,19 @@ export default ({ selectedTile, setSelectedTile, setUser }) => {
         method: "post",
       })
     ).json();
+
+    if (mv.success) {
+      if (mv.message.match(/lost/)) {
+        addToast(mv.message, { appearance: "error" });
+      } else {
+        addToast(mv.message, { appearance: "success" });
+      }
+    } else {
+      addToast(mv.message, { appearance: "error" });
+    }
+
     setUser(mv.user);
+    setReload(!reload);
     setSelectedTile(mv.user.currentTileId - 1);
     console.log({ mv });
     setSub(false);

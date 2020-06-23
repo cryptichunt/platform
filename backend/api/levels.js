@@ -123,7 +123,11 @@ router.post("/skip", async (req, res, next) => {
       data: { completed: true, completedAt: new Date() },
     });
 
-    res.json({ success: true, message: "Skipped", user: req.user });
+    res.json({
+      success: true,
+      message: "You skipped this level",
+      user: req.user,
+    });
   } catch (e) {
     return next(e);
   }

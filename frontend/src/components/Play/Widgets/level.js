@@ -130,6 +130,7 @@ class Level extends React.Component {
       }
 
       console.log({ r });
+      this.props.setReload(!this.props.reload);
       this.setState({ submitting: false });
     } catch (e) {
       console.error(e);
@@ -138,6 +139,7 @@ class Level extends React.Component {
 
   async handleSkip() {
     try {
+      this.setState({ submitting: true });
       const r = await (
         await fetch("/api/levels/skip", { method: "POST" })
       ).json();
@@ -147,7 +149,19 @@ class Level extends React.Component {
         this.props.setSelectedTile(r.user.currentTileId - 1);
       }
 
+      if (r.success) {
+        this.props.toastManager.add(r.message, {
+          appearance: "success",
+        });
+      } else {
+        this.props.toastManager.add(r.message, {
+          appearance: "error",
+        });
+      }
+
+      this.props.setReload(!this.props.reload);
       console.log({ lvla: r });
+      this.setState({ submitting: false });
     } catch (e) {
       console.error(e);
     }

@@ -34,15 +34,44 @@ router.use("/jail", require("./jail"));
 
 router.get("/ping", async (req, res, next) => {
   try {
+    if (req.user && req.user.incarcerated) {
+      console.log("validating incarceration");
+      const dt = new Date(req.user.incarceratedAt).getTime();
+      const hour = 30 * 60 * 1000;
+      const now = Date.now();
+      const tl = (dt + hour - now) / 1000;
+      if (tl < 0) {
+        console.log("resetting incarceration");
+        await client.user.update({
+          where: { id: req.user.id },
+          data: { incarcerated: false, incarceratedAt: null },
+        });
+      }
+    }
+
     // Get: sidequests, stories, levels
     const mysteryOpen = await client.gameConfig.findOne({
       where: { key: "MYSTERY_TILE_OPEN" },
     });
 
+    const RawVTiles = await client.visitedTile.findMany({
+      where: { userId: req.user.id },
+    });
+
+    const vTiles = [];
+
+    for (let tile of RawVTiles) {
+      if (vTiles.indexOf(tile.tileId) === -1) {
+        vTiles.push(tile.tileId);
+      }
+    }
+
     res.json({
       success: true,
       userState: req.session.userState,
       mysteryOpen: mysteryOpen.value,
+      vTiles,
+      user: req.user,
     });
   } catch (e) {
     return next(e);
@@ -70,8 +99,6 @@ router.post(
         if (levels < 24) {
           return res.json({ success: false, message: "Eh" });
         }
-
-        return next();
       }
 
       return res.json({ success: false, message: "Tile is not moveable" });
@@ -83,10 +110,14 @@ router.post(
     try {
       const oldTileId = req.user.currentTileId;
       const diceRoll = rollDice();
-      let nextTileId = calculateNextTileId(req.user.currentTileId, diceRoll);
-      if (req.session.userState === "gate-moveable" && req.body.goIn) {
-        nextTileId = 44 + diceRoll;
-      }
+      let nextTileId = calculateNextTileId(
+        req.user.currentTileId,
+        diceRoll,
+        req.session.userState,
+        req.body.goIn,
+        req.body.goOut
+      );
+      console.log({ nextTileId });
 
       // Check if tile with id nextTileId exists
       const tile = await client.tile.findOne({

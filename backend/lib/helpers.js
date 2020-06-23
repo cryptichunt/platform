@@ -30,7 +30,7 @@ const userStateFromTileType = {
   RAND_PERSON: async (ct, user) => {
     if (ct.randomPersonType === "SPHINX") {
       const [riddle] = await client.userRiddle.findMany({
-        where: { userId: user.id, completed: false },
+        where: { userId: user.id, tileId: ct.tileId },
       });
 
       return !riddle
@@ -50,9 +50,11 @@ const userStateFromTileType = {
       VILLAGER: "rp-sidequest-skippable",
     }[ct.randomPersonType];
   },
-  JAIL: async (ct, user) =>
-    user.incarcerated ? "jail" : "jailvisiting-moveable",
+  JAIL: async (ct, user) => {
+    return user.incarcerated ? "jail" : "jailvisiting-moveable";
+  },
   GATE: async () => "gate-moveable",
+  GATEI: async () => "gatei-moveable",
   MYSTERY: async (ct, user) => "mystery-moveable",
   CENTER: async () => "center",
 };
@@ -69,17 +71,22 @@ async function findUserState(user) {
     where: { tileId: currentTile.tileId, userId: user.id },
   });
 
-  if (
-    tiles.length > 1 &&
-    (currentTile.tile.type !== "GATE" ||
-      currentTile.tile.type !== "STORY" ||
-      currentTile.tile.type !== "MYSTERY" ||
-      currentTile.tile.type !== "CENTER")
-  ) {
-    return "visited-moveable";
+  if (tiles.length > 1) {
+    console.log(currentTile.tile.type);
+    const moveable = ["STORY", "LEVEL", "RAND_PERSON", "RAND_CHANCE"];
+
+    if (moveable.indexOf(currentTile.tile.type) !== -1) {
+      console.log("visited-moveable");
+      return "visited-moveable";
+    }
   }
 
-  return await userStateFromTileType[currentTile.tile.type](currentTile, user);
+  const state = await userStateFromTileType[currentTile.tile.type](
+    currentTile,
+    user
+  );
+  console.log(state);
+  return state;
 }
 
 const rollDice = () => Math.ceil(Math.random() * 6);
@@ -87,16 +94,38 @@ const rollDice = () => Math.ceil(Math.random() * 6);
 // Dice roll special cases:
 // currentTileId === 44: 0 + dice roll
 // currentTileId === 76: 40 + dice roll
-const calculateNextTileId = (currentTileId, diceRollV) => {
+const calculateNextTileId = (
+  currentTileId,
+  diceRollV,
+  userState,
+  goIn,
+  goOut
+) => {
   const next = currentTileId + diceRollV;
-  return currentTileId <= 44 && next > 44
-    ? next - currentTileId - (44 - currentTileId)
-    : currentTileId <= 80 && next > 80
-    ? 44 + diceRollV - (44 - currentTileId)
-    : next;
+
+  if (userState === "gate-moveable" && goIn) {
+    console.log("movein", 44 + diceRollV);
+    return 44 + diceRollV;
+  }
+
+  if (userState === "gatei-moveable" && goOut) {
+    console.log("moveout", 23 + diceRollV);
+    return 23 + diceRollV;
+  }
+  if (currentTileId <= 44 && next > 44) {
+    return 0 + diceRollV - (44 - currentTileId);
+  }
+
+  if (currentTileId <= 80 && next > 80) {
+    console.log("over 80");
+    return 44 + diceRollV - (80 - currentTileId);
+  }
+
+  return next;
 };
 
 const chooseRandomChance = () => {
+  // TODO: reduce probability of jail
   const rc = ["JAIL", "BRIBE", "BOUNTY"];
   const random = Math.floor(Math.random() * rc.length);
 
@@ -107,7 +136,6 @@ const chooseRandomPerson = () => {
   const rp = ["ALLY", "PICKPOCKET", "SPHINX", "GUARD", "VILLAGER"];
   const random = Math.floor(Math.random() * rp.length);
 
-  // return 'SPHINX'
   return rp[random];
 };
 

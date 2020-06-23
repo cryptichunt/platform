@@ -37,6 +37,8 @@ export default class AuthCheck extends React.Component {
           retComponent: <Loading error="Please verify your email" />,
         });
       }
+
+      // TODO: check for dq and bountyBanned
     } catch (e) {
       this.setState({
         retComponent: <Loading error={e.message} />,

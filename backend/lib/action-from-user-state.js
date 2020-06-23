@@ -6,7 +6,7 @@ module.exports = {
   "go-moveable": (user) => async (req, res, next) =>
     res.json({ success: true, user, message: "You landed on the Go tile!" }),
   "story-moveable": (user, ct) => async (req, res, next) =>
-    res.json({ success: true, message: "You landed on s story tile! ", user }),
+    res.json({ success: true, message: "You landed on a story tile! ", user }),
   "levelsolved-moveable": (user, ct) => async (req, res, next) => {
     try {
       const lvl = ct.tile.levelId
@@ -123,6 +123,8 @@ module.exports = {
     });
   },
   "gate-moveable": (user, ct) => async (req, res, next) =>
+    res.json({ success: true, user, message: "You're on a Gate tile" }),
+  "gatei-moveable": (user, ct) => async (req, res, next) =>
     res.json({ success: true, user, message: "You're on a Gate tile" }),
   "visited-moveable": (user, ct) => async (req, res, next) =>
     res.json({
