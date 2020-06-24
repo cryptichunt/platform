@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import qs from "qs";
 import styled from "styled-components";
 import Layout from "../../components/Layout/index";
 import api from "../../lib/api";
@@ -25,11 +26,13 @@ const Text = styled.div`
 
 export default function EmailVerification() {
   const [loading, setLoading] = useState(false);
-  const router = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     async function f() {
-      const { token } = router.query;
+      const { token } = qs.parse(
+        location.search.slice(1, location.search.length - 1)
+      );
 
       const r = await (
         await fetch(api("/api/auth/verification/email"), {
@@ -47,7 +50,7 @@ export default function EmailVerification() {
     }
 
     f();
-  });
+  }, []);
 
   return (
     <Layout
