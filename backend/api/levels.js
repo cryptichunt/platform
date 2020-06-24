@@ -100,6 +100,10 @@ router.post("/skip", async (req, res, next) => {
       include: { level: true },
     });
 
+    if (lvl.level.id === 47) {
+      return res.json({ success: false, message: "lulz" });
+    }
+
     if (!lvl) {
       return res.json({
         success: false,

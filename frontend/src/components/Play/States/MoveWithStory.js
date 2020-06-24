@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useToasts } from "react-toast-notifications";
 import { Button } from "../../forms";
 import Story from "../Widgets/story";
+import api from "../../../lib/api";
 
 const ButtonContainer = styled.div`
   width: 100%;
@@ -21,7 +22,9 @@ export const handleMove = (
   setReload
 ) => async () => {
   setSub(true);
-  const mv = await (await fetch("/api/play/move", { method: "post" })).json();
+  const mv = await (
+    await fetch(api("/api/play/move"), { method: "post" })
+  ).json();
   setUser(mv.user);
   setSelectedTile(mv.user.currentTileId - 1);
 
@@ -49,7 +52,7 @@ export default ({
   useEffect(() => {
     async function f() {
       const r = await (
-        await fetch("/api/play/story/" + (selectedTile + 1))
+        await fetch(api("/api/play/story/") + (selectedTile + 1))
       ).json();
 
       if (r.tile) {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useToasts } from "react-toast-notifications";
 import { Button } from "../../forms";
+import api from "../../../lib/api";
 
 const Container = styled.div`
   margin: 50px auto;
@@ -36,7 +37,7 @@ export default ({
   const handleBribe = async () => {
     setSub(true);
     const mv = await (
-      await fetch("/api/play/guard/bribe", {
+      await fetch(api("/api/play/guard/bribe"), {
         method: "post",
       })
     ).json();
@@ -61,7 +62,7 @@ export default ({
   const handleFight = async () => {
     setSub(true);
     const mv = await (
-      await fetch("/api/play/guard/fight", {
+      await fetch(api("/api/play/guard/fight"), {
         method: "post",
       })
     ).json();

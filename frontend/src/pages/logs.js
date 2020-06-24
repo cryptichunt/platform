@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Layout from "../components/Layout";
+import api from "../lib/api";
 
 const Terminal = styled.div`
   margin: auto;
@@ -28,7 +29,7 @@ const Logs = () => {
 
   useEffect(() => {
     async function f() {
-      const r = await (await fetch("/api/logs/self")).json();
+      const r = await (await fetch(api("/api/logs/self"))).json();
 
       if (r.logs) {
         setLogs(r.logs);

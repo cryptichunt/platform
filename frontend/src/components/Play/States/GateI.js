@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useToasts } from "react-toast-notifications";
 import { Button } from "../../forms";
+import api from "../../../lib/api";
 
 const Container = styled.div`
   margin: 50px auto;
@@ -36,7 +37,7 @@ export default ({
     try {
       setSub(true);
       const mv = await (
-        await fetch("/api/play/move", {
+        await fetch(api("/api/play/move"), {
           method: "post",
           headers: {
             "Content-Type": "application/json",

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import api from "../../lib/api";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 
 const NavContainer = styled.div`
@@ -171,7 +172,7 @@ const Close = ({ onClick }) => (
 );
 
 const handleSignOut = (history) => () => {
-  fetch("/api/auth/logout")
+  fetch(api("/api/auth/logout"))
     .then(() => history.push("/signin"))
     .catch(console.error);
 };

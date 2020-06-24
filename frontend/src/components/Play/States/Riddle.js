@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { withToastManager } from "react-toast-notifications";
 
 import { Button } from "../../forms";
+import api from "../../../lib/api";
 
 const Big = styled.div`
   width: 100%;
@@ -82,7 +83,7 @@ class Riddle extends React.Component {
   async componentDidMount() {
     try {
       this.setState({ submitting: true });
-      const r = await (await fetch("/api/play/riddle")).json();
+      const r = await (await fetch(api("/api/play/riddle"))).json();
 
       console.log({ lvl: r }, r.lvl);
 
@@ -99,7 +100,7 @@ class Riddle extends React.Component {
     try {
       this.setState({ submitting: true });
       const r = await (
-        await fetch("/api/play/riddle/answer", {
+        await fetch(api("/api/play/riddle/answer"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ answer: this.state.answer }),

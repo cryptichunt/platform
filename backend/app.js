@@ -8,6 +8,7 @@ const compression = require("compression");
 const redis = require("redis");
 const connectRedis = require("connect-redis");
 const crypto = require("crypto");
+const path = require("path");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const Sentry = require("@sentry/node");
@@ -40,11 +41,12 @@ app.use(cors());
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(express.static(path.join(__dirname, "react_build")));
 app.use(cookieParser());
 app.use(
   session({
     store: new RedisStore({ client }),
-    secret: process.env.SECRET || "keyboard cat",
+    secret: process.env.SECRET || crypto.randomBytes(20).toString("hex"),
     cookie: {
       secure: false,
       httpOnly: true,
@@ -57,6 +59,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/api", require("./api"));
+
+app.get("*", (req, res) =>
+  res.sendFile(path.join(__dirname + "/react_build/index.html"))
+);
 
 app.use((err, req, res, next) => {
   req.log.info(err);

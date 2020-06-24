@@ -34,5 +34,4 @@ export default {
   mystery: Level,
   "mystery-completed-moveable": Move,
   center: Level,
-  // TODO: gatei-moveable
 };

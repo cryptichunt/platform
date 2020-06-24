@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import { RenderTiles } from "./tile";
 import AuthContext from "../../../lib/auth-context";
+import api from "../../../lib/api";
 import UserStates from "../States";
 
 const XScrollable = styled.div`
@@ -71,7 +72,7 @@ export default () => {
 
   React.useEffect(() => {
     async function ftch() {
-      const r = await (await fetch("/api/play/ping")).json();
+      const r = await (await fetch(api("/api/play/ping"))).json();
 
       console.log({ r });
 

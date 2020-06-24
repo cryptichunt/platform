@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Layout from "../../components/Layout/index";
+import api from "../../lib/api";
 
 const FlexContainer = styled.div`
   min-height: 90vh;
@@ -31,7 +32,7 @@ export default function EmailVerification() {
       const { token } = router.query;
 
       const r = await (
-        await fetch("/api/auth/verification/email", {
+        await fetch(api("/api/auth/verification/email"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

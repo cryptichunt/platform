@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useToasts } from "react-toast-notifications";
 import { Button } from "../../forms";
+import api from "../../../lib/api";
 
 const Container = styled.div`
   margin: 50px auto;
@@ -22,7 +23,7 @@ export default ({ setUser, setSelectedTile, setReload, reload }) => {
   const handleMove = async () => {
     setSub(true);
     const mv = await (
-      await fetch("/api/play/move", {
+      await fetch(api("/api/play/move"), {
         method: "post",
         body: JSON.stringify({ skip: true }),
       })
@@ -43,7 +44,7 @@ export default ({ setUser, setSelectedTile, setReload, reload }) => {
   const handleAccept = async () => {
     setSub(true);
     const mv = await (
-      await fetch("/api/play/riddle/accept", {
+      await fetch(api("/api/play/riddle/accept"), {
         method: "post",
       })
     ).json();

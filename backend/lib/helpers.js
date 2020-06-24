@@ -30,7 +30,7 @@ const userStateFromTileType = {
   RAND_PERSON: async (ct, user) => {
     if (ct.randomPersonType === "SPHINX") {
       const [riddle] = await client.userRiddle.findMany({
-        where: { userId: user.id, tileId: ct.tileId },
+        where: { userId: user.id, tileId: ct.id },
       });
 
       return !riddle

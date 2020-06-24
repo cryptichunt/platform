@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useToasts } from "react-toast-notifications";
 import { Button } from "../../forms";
+import api from "../../../lib/api";
 
 const ButtonContainer = styled.div`
   width: 100%;
@@ -28,7 +29,9 @@ export const handleMove = (
   setReload
 ) => async () => {
   setSub(true);
-  const mv = await (await fetch("/api/play/move", { method: "post" })).json();
+  const mv = await (
+    await fetch(api("/api/play/move"), { method: "post" })
+  ).json();
   setUser(mv.user);
   setSelectedTile(mv.user.currentTileId - 1);
 

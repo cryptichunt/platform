@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useToasts } from "react-toast-notifications";
 import { Button } from "../../forms";
+import api from "../../../lib/api";
 
 const Container = styled.div`
   margin: 50px auto;
@@ -23,7 +24,7 @@ export default ({ setSelectedTile, setUser, reload, setReload }) => {
   const handleBribe = async () => {
     setSub(true);
     const mv = await (
-      await fetch("/api/play/jail/bribe", {
+      await fetch(api("/api/play/jail/bribe"), {
         method: "post",
       })
     ).json();

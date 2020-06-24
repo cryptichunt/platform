@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import RegistrationSchema from "./register-schema";
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
 import { Formik, Form } from "formik";
+import { useToasts } from "react-toast-notifications";
 import { useGoogleReCaptcha as useRecaptcha } from "react-google-recaptcha-v3";
-import { ButtonContainer, Button, Field } from "../forms";
+import RegistrationSchema from "./register-schema";
+import { ButtonContainer, Button, Field, Message } from "../forms";
+import api from "../../lib/api";
 
 export default () => {
-  const [formErr, setFormErr] = useState();
+  const { addToast } = useToasts();
   const router = useHistory();
 
   const { executeRecaptcha } = useRecaptcha();
@@ -16,7 +18,7 @@ export default () => {
 
     const data = { ...values, recaptcha };
 
-    fetch("/api/auth/register", {
+    fetch(api("/api/auth/register"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,12 +32,14 @@ export default () => {
             shallow: true,
           });
         } else {
-          // TODO: show formErr
-          setFormErr(message);
+          addToast(message, { appearance: "error" });
           setSubmitting(false);
         }
       })
-      .catch(console.error);
+      .catch((e) => {
+        addToast(e.message, { appearance: "error" });
+        console.error(e);
+      });
   };
 
   return (
@@ -101,6 +105,9 @@ export default () => {
             errors={errors}
             touched={touched}
           />
+          <Link to="/signin" component={Message}>
+            Already have an account?
+          </Link>
           <ButtonContainer>
             <Button
               type="submit"

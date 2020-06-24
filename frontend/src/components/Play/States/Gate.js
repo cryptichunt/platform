@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useToasts } from "react-toast-notifications";
 import { Button } from "../../forms";
+import api from "../../../lib/api";
 
 const Container = styled.div`
   margin: 50px auto;
@@ -35,7 +36,7 @@ export default ({
 
   useEffect(() => {
     async function f() {
-      const r = await (await fetch("/api/play/gate/in")).json();
+      const r = await (await fetch(api("/api/play/gate/in"))).json();
 
       console.log({ r });
 
@@ -50,7 +51,7 @@ export default ({
   const handleMove = (goIn, setSub) => async () => {
     setSub(true);
     const mv = await (
-      await fetch("/api/play/move", {
+      await fetch(api("/api/play/move"), {
         method: "post",
         headers: {
           "Content-Type": "application/json",

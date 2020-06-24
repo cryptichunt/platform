@@ -21,9 +21,3 @@ gate-moveable
 mystery-moveable
 center
 ```
-
-# Do this
-
-- [ ] Confirm on level skip
-- [ ] Leaderboard, shop
-- [ ] Level flagging

@@ -7,6 +7,7 @@ import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import AuthContext from "./lib/auth-context";
 import Navbar from "./components/Layout/Navbar";
 import FaviconPng from "./assets/favicon.png";
+import IvyLogo from "./assets/ivyachievement.png";
 
 import Home from "./pages/index";
 import VerifyEmail from "./pages/verify/email";
@@ -49,6 +50,29 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
+const Footer = styled.div`
+  height: 15vh;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+    padding: 10px 0;
+    justify-content: space-between;
+  }
+`;
+
+const Copy = styled.div`
+  font-size: 1.2rem;
+`;
+
+const SponsorImg = styled.img`
+  height: 8vh;
+  width: auto;
+`;
+
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState({});
@@ -88,7 +112,10 @@ function App() {
               <Route path="*" component={NotFound} />
             </Switch>
           </Router>
-          {/* TODO: add a footer */}
+          <Footer>
+            <Copy>&copy; Team Cryptocracy 2020</Copy>
+            <SponsorImg src={IvyLogo} />
+          </Footer>
         </GoogleReCaptchaProvider>
       </ToastProvider>
     </AuthContext.Provider>

@@ -7,6 +7,20 @@ export const FieldContainer = styled.div`
   margin: 30px 0;
 `;
 
+export const Message = styled.a`
+  font-size: 0.9rem;
+  color: #aaa;
+  text-decoration: none;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: #2977f5;
+  }
+`;
+
 export const Label = styled.div`
   font-size: 0.7rem;
   text-transform: uppercase;

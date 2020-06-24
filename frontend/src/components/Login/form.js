@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import React from "react";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import * as yup from "yup";
 import { Formik, Form } from "formik";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useToasts } from "react-toast-notifications";
-import { ButtonContainer, Button, Field } from "../forms";
+import { ButtonContainer, Button, Field, Message } from "../forms";
+import api from "../../lib/api";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -13,7 +14,6 @@ function useQuery() {
 export default () => {
   const router = useHistory();
   const query = useQuery();
-  const [formErr, setFormErr] = useState();
   const { addToast } = useToasts();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const fromreg = query.get("fromreg");
@@ -32,7 +32,7 @@ export default () => {
     // same shape as initial values
     const data = { ...values, recaptcha: token };
 
-    fetch("/api/auth/login", {
+    fetch(api("/api/auth/login"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,13 +46,14 @@ export default () => {
             shallow: true,
           });
         } else {
-          // TODO: Show formErr
-          setFormErr(message);
           addToast(message, { appearance: "error" });
           setSubmitting(false);
         }
       })
-      .catch(console.error);
+      .catch((e) => {
+        addToast(e.message, { appearance: "error" });
+        console.error(e);
+      });
   };
 
   return (
@@ -92,7 +93,9 @@ export default () => {
             errors={errors}
             touched={touched}
           />
-          {/* TODO: Don't have an account? Register. */}
+          <Link to="/register" component={Message}>
+            Don't have an account?
+          </Link>
           <ButtonContainer>
             <Button
               type="submit"

@@ -1,6 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import AuthContext from "../../lib/auth-context";
+import api from "../../lib/api";
 import Loading from "../Loading";
 
 export default class AuthCheck extends React.Component {
@@ -11,7 +12,7 @@ export default class AuthCheck extends React.Component {
   async componentDidMount() {
     try {
       const data = await (
-        await fetch("/api/auth/me", {
+        await fetch(api("/api/auth/me"), {
           method: "POST",
         })
       ).json();
@@ -38,7 +39,17 @@ export default class AuthCheck extends React.Component {
         });
       }
 
-      // TODO: check for dq and bountyBanned
+      if (data.authenticated && data.user.dqed) {
+        this.setState({
+          retComponent: <Loading error="You have been disqualified" />,
+        });
+      }
+
+      if (data.authenticated && data.user.bountyBanned) {
+        this.setState({
+          retComponent: <Loading error="You have been hunted" />,
+        });
+      }
     } catch (e) {
       this.setState({
         retComponent: <Loading error={e.message} />,

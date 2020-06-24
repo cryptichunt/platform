@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Layout from "../components/Layout";
+import api from "../lib/api";
 
 const Container = styled.div`
   width: 100%;
@@ -48,7 +49,7 @@ const Leaderboard = () => {
 
   useEffect(() => {
     async function f() {
-      const r = await (await fetch("/api/leaderboard/")).json();
+      const r = await (await fetch(api("/api/leaderboard/"))).json();
 
       if (r.success) {
         setUsers(r.users);

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useToasts } from "react-toast-notifications";
 import tiles from "./tile-data";
+import api from "../../../lib/api";
 import Middle from "./middle";
 
 export const Random = styled.div`
@@ -60,7 +61,7 @@ export const RenderTiles = ({ selectedTile, vTiles }) => {
     try {
       if (t.type !== "STORY" || !visited) return;
 
-      const r = await (await fetch(`/api/play/story/${i + 1}`)).json();
+      const r = await (await fetch(api(`/api/play/story/${i + 1}`))).json();
 
       if (r.tile?.story) {
         // TODO: show in modal
@@ -84,7 +85,6 @@ export const RenderTiles = ({ selectedTile, vTiles }) => {
             pointer={vTiles.indexOf(i + 1) !== -1 && t.type === "STORY"}
             onClick={handleClick(t, vTiles.indexOf(i + 1) !== -1, i)}
           >
-            {/* TODO: add icon based on type */}
             {t.number} {shorten[t.type]}
           </Tile>
         ) : t.gridArea === "middle" ? (

@@ -1,10 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { withToastManager } from "react-toast-notifications";
-// TODO: setup confirmation
-import Swal from "sweetalert2-react";
-
 import { Button } from "../../forms";
+import api from "../../../lib/api";
 
 const Big = styled.div`
   width: 100%;
@@ -88,7 +86,7 @@ class Level extends React.Component {
   async componentDidMount() {
     try {
       this.setState({ submitting: true });
-      const r = await (await fetch("/api/levels/")).json();
+      const r = await (await fetch(api("/api/levels/"))).json();
 
       console.log({ lvl: r }, r.lvl);
 
@@ -105,7 +103,7 @@ class Level extends React.Component {
     try {
       this.setState({ submitting: true });
       const r = await (
-        await fetch("/api/levels/answer", {
+        await fetch(api("/api/levels/answer"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ answer: this.state.answer }),
@@ -141,7 +139,7 @@ class Level extends React.Component {
     try {
       this.setState({ submitting: true });
       const r = await (
-        await fetch("/api/levels/skip", { method: "POST" })
+        await fetch(api("/api/levels/skip"), { method: "POST" })
       ).json();
 
       if (r.user) {
