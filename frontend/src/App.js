@@ -15,6 +15,8 @@ import Logs from "./pages/logs";
 import Play from "./pages/play";
 import Register from "./pages/register";
 import Signin from "./pages/signin";
+import Shop from "./pages/shop";
+import NotFound from "./pages/404";
 
 const GlobalStyles = createGlobalStyle`
   html,
@@ -80,8 +82,10 @@ function App() {
               <Route exact path="/leaderboard" component={Leaderboard} />
               <Route exact path="/logs" component={Logs} />
               <Route exact path="/play" component={Play} />
+              <Route exact path="/shop" component={Shop} />
               <Route exact path="/register" component={Register} />
               <Route exact path="/signin" component={Signin} />
+              <Route path="*" component={NotFound} />
             </Switch>
           </Router>
           {/* TODO: add a footer */}

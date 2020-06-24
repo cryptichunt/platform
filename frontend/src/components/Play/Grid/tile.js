@@ -80,7 +80,7 @@ export const RenderTiles = ({ selectedTile, vTiles }) => {
             style={{ gridArea: t.gridArea }}
             key={i}
             selected={selectedTile === i}
-            visited={vTiles.indexOf(i + 1) !== -1}
+            visited={vTiles.indexOf(i + 1) !== -1 && t.type !== "GATEI"}
             pointer={vTiles.indexOf(i + 1) !== -1 && t.type === "STORY"}
             onClick={handleClick(t, vTiles.indexOf(i + 1) !== -1, i)}
           >

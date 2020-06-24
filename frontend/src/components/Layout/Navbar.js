@@ -182,6 +182,7 @@ const AuthenticatedNav = ({ handleClose }) => {
   return (
     <>
       <Link to="/leaderboard">Leaderboard</Link>
+      <Link to="/shop">Shop</Link>
       <Link to="/">Rules</Link>
       <NavLogo />
       <Link to="/play">Play</Link>
