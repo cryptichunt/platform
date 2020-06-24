@@ -1,27 +1,29 @@
 module.exports = {
   check: (req, res, next) => {
     if (!req.isAuthenticated()) {
-      return res.json({ success: false, message: 'Unauthorized' })
+      return res.json({ success: false, message: "Unauthorized" });
     }
 
-    return next()
+    return next();
   },
 
   canPlay: (req, res, next) =>
-    !req.user?.emailVerified || !req.user?.discordVerified
-      ? res.json({
-          success: false,
-          message: 'Please verify your email',
-        })
-      : req.user?.points < 0
-      ? res.json({ success: false, message: 'Insufficient funds' })
-      : next(),
+    req.user
+      ? !req.user.emailVerified || !req.user.discordVerified
+        ? res.json({
+            success: false,
+            message: "Please verify your email",
+          })
+        : req.user.points < 0
+        ? res.json({ success: false, message: "Insufficient funds" })
+        : next()
+      : res.json({ success: false, message: "auth pls" }),
 
   admin: (req, res, next) =>
     req.user.admin
       ? next()
       : res.json({
           success: false,
-          message: 'This functionality is only available to admins',
+          message: "This functionality is only available to admins",
         }),
-}
+};

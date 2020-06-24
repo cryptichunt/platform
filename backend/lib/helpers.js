@@ -89,7 +89,8 @@ async function findUserState(user) {
   return state;
 }
 
-const rollDice = () => Math.ceil(Math.random() * 6);
+// const rollDice = () => Math.ceil(Math.random() * 6);
+const rollDice = () => 3;
 
 // Dice roll special cases:
 // currentTileId === 44: 0 + dice roll
