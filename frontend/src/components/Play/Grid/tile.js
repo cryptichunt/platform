@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { useToasts } from "react-toast-notifications";
+import swal from "sweetalert";
+
 import tiles from "./tile-data";
 import api from "../../../lib/api";
 import Middle from "./middle";
@@ -64,7 +66,10 @@ export const RenderTiles = ({ selectedTile, vTiles }) => {
       const r = await (await fetch(api(`/api/play/story/${i + 1}`))).json();
 
       if (r.tile?.story) {
-        // TODO: show in modal
+        swal({
+          title: `Story #${r.tile?.number}`,
+          text: r.tile?.story,
+        });
       }
 
       console.log({ tile: r });
