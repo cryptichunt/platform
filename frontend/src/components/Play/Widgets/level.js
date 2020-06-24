@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { withToastManager } from "react-toast-notifications";
+import swal from "sweetalert";
+
 import { Button } from "../../forms";
 import api from "../../../lib/api";
 
@@ -203,9 +205,20 @@ class Level extends React.Component {
             >
               Submit
             </Button>
-            {/* TODO: add confirmation */}
             <Button
-              onClick={this.handleSkip.bind(this)}
+              onClick={() => {
+                swal({
+                  title: "You're about to skip this level!",
+                  text: "This will cost you 350 points.",
+                  icon: "warning",
+                  buttons: ["Cancel", "Go ahead and skip"],
+                  dangerMode: true,
+                }).then((skip) => {
+                  if (skip) {
+                    this.handleSkip();
+                  }
+                });
+              }}
               disabled={
                 this.state.submitting ||
                 this.props.user?.points < 351 ||
