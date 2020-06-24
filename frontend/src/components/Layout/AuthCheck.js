@@ -30,7 +30,7 @@ export default class AuthCheck extends React.Component {
 
       if (
         data.authenticated &&
-        !data.user?.emailVerified &&
+        !data.user.emailVerified &&
         !!!window.location.href.match(/verify\/email/)
       ) {
         this.setState({

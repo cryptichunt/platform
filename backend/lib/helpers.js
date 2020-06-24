@@ -55,7 +55,31 @@ const userStateFromTileType = {
   },
   GATE: async () => "gate-moveable",
   GATEI: async () => "gatei-moveable",
-  MYSTERY: async (ct, user) => "mystery-moveable",
+  MYSTERY: async (ct, user) => {
+    if (!ct.tile.mysteryTileOpen) {
+      return "mystery-moveable";
+    }
+
+    let [level] = await client.userLevel.findMany({
+      where: { level: { id: 47 } },
+    });
+
+    if (!level) {
+      level = await client.userLevel.create({
+        data: {
+          level: { connect: { id: 47 } },
+          user: { connect: { id: user.id } },
+          completed: false,
+        },
+      });
+    }
+
+    if (level.completed) {
+      return "mystery-completed-moveable";
+    }
+
+    return "mystery";
+  },
   CENTER: async () => "center",
 };
 

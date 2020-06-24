@@ -49,11 +49,6 @@ router.get("/ping", async (req, res, next) => {
       }
     }
 
-    // Get: sidequests, stories, levels
-    const mysteryOpen = await client.gameConfig.findOne({
-      where: { key: "MYSTERY_TILE_OPEN" },
-    });
-
     const RawVTiles = await client.visitedTile.findMany({
       where: { userId: req.user.id },
     });
@@ -69,7 +64,6 @@ router.get("/ping", async (req, res, next) => {
     res.json({
       success: true,
       userState: req.session.userState,
-      mysteryOpen: mysteryOpen.value,
       vTiles,
       user: req.user,
     });

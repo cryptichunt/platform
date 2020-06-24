@@ -79,6 +79,9 @@ model Tile {
   // Story tile
   story Json?
 
+  // Mystery tile
+  mysteryTileOpen Boolean @default(false)
+
   visits      VisitedTile[]
   usersOnTile User[]
 }
@@ -172,14 +175,6 @@ model RiddleAttempt {
   attempt   String
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
-}
-
-model GameConfig {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  key       String   @unique
-  value     Json
 }
 
 model Log {

@@ -31,6 +31,8 @@ export default {
   "gate-moveable": Gate,
   "gatei-moveable": GateI,
   "mystery-moveable": Mystery,
+  mystery: Level,
+  "mystery-completed-moveable": Move,
   center: Level,
   // TODO: gatei-moveable
 };

@@ -57,7 +57,6 @@ model User {
   currentTileId   Int
   currentTile     Tile      @relation(fields: [currentTileId], references: [id])
 
-  inventory     Inventory[]
   logs          Log[]
   levels        UserLevel[]
   riddles       UserRiddle[]
@@ -79,6 +78,9 @@ model Tile {
 
   // Story tile
   story Json?
+
+  // Mystery tile
+  mysteryTileOpen Boolean @default(false)
 
   visits      VisitedTile[]
   usersOnTile User[]
@@ -173,25 +175,6 @@ model RiddleAttempt {
   attempt   String
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
-}
-
-model GameConfig {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  key       String   @unique
-  value     Json
-}
-
-model Inventory {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  hex       String
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  item      String
-  used      Boolean  @default(false)
 }
 
 model Log {

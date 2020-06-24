@@ -208,7 +208,11 @@ class Level extends React.Component {
             {/* TODO: add confirmation */}
             <Button
               onClick={this.handleSkip.bind(this)}
-              disabled={this.state.submitting || this.props.user?.points < 351}
+              disabled={
+                this.state.submitting ||
+                this.props.user?.points < 351 ||
+                this.state.lvl?.levelId === 47
+              }
             >
               Skip
             </Button>

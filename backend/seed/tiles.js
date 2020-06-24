@@ -8,7 +8,7 @@ const transformers = {
   JAIL: (t) => ({ type: t.type }),
   GATE: (t) => ({ type: t.type }),
   GATEI: (t) => ({ type: t.type, number: t.number }),
-  MYSTERY: (t) => ({ type: t.type }),
+  MYSTERY: (t) => ({ type: t.type, level: { connect: { id: t.levelId } } }),
   CENTER: (t) => ({ type: t.type, level: { connect: { id: t.levelId } } }),
   LEVEL: (t) => ({
     type: t.type,

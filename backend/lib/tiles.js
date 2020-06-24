@@ -107,7 +107,7 @@ module.exports = [
     nextTile: true,
     gridArea: "cell30",
   },
-  { type: "MYSTERY", nextTile: true, gridArea: "random4" },
+  { type: "MYSTERY", nextTile: true, levelId: 47, gridArea: "random4" },
   {
     type: "LEVEL",
     number: 31,

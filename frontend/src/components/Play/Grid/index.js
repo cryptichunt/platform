@@ -77,7 +77,6 @@ export default () => {
 
       setUserState(r.userState);
       setSelectedTile(r.user.currentTileId - 1);
-      setMysteryTileOpen(r.mysteryOpen);
       setVTiles(r.vTiles);
     }
 
@@ -102,6 +101,7 @@ export default () => {
         setSelectedTile={setSelectedTile}
         selectedTile={selectedTile}
         mysteryTileOpen={mysteryTileOpen}
+        setMysteryTileOpen={setMysteryTileOpen}
         reload={reload}
         setReload={setReload}
       />
