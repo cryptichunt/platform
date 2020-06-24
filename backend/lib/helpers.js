@@ -126,11 +126,17 @@ const calculateNextTileId = (
 };
 
 const chooseRandomChance = () => {
-  // TODO: reduce probability of jail
-  const rc = ["JAIL", "BRIBE", "BOUNTY"];
-  const random = Math.floor(Math.random() * rc.length);
+  const r = Math.random();
 
-  return rc[random];
+  if (r < 0.45) {
+    return "BRIBE";
+  }
+
+  if (r < 0.9) {
+    return "BOUNTY";
+  }
+
+  return "JAIL";
 };
 
 const chooseRandomPerson = () => {
