@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { PrismaClient } = require("@prisma/client");
+const { client } = require("../../lib/prisma");
 const logs = require("../../lib/logs");
 const { check, canPlay } = require("../../lib/auth");
 const {
@@ -10,8 +10,6 @@ const {
   rollDice,
   calculateNextTileId,
 } = require("../../lib/helpers");
-
-const client = new PrismaClient();
 
 router.use(check);
 router.use(canPlay);

@@ -1,9 +1,7 @@
 const router = require("express").Router();
-const { PrismaClient } = require("@prisma/client");
 const { rollDice } = require("../../lib/helpers");
 const logs = require("../../lib/logs");
-
-const client = new PrismaClient();
+const { client } = require("../../lib/prisma");
 
 router.use(async (req, res, next) => {
   try {

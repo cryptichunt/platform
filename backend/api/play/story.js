@@ -1,8 +1,5 @@
 const router = require("express").Router();
-const { PrismaClient } = require("@prisma/client");
-const { check, canPlay } = require("../../lib/auth");
-
-const client = new PrismaClient();
+const { client } = require("../../lib/prisma");
 
 router.get("/:tileId", async (req, res, next) => {
   try {

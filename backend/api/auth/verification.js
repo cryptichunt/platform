@@ -1,23 +1,22 @@
-const router = require('express').Router()
-const jwt = require('jsonwebtoken')
-const { PrismaClient } = require('@prisma/client')
-const client = new PrismaClient()
+const router = require("express").Router();
+const jwt = require("jsonwebtoken");
+const { client } = require("../../lib/prisma");
 
-router.post('/email', async (req, res, next) => {
+router.post("/email", async (req, res, next) => {
   try {
-    const { token } = req.body
+    const { token } = req.body;
 
-    const payload = jwt.verify(token, process.env.SECRET)
+    const payload = jwt.verify(token, process.env.SECRET);
 
     await client.user.update({
       where: { id: payload.userId },
       data: { emailVerified: true },
-    })
+    });
 
-    return res.json({ success: true, message: 'Email verified' })
+    return res.json({ success: true, message: "Email verified" });
   } catch (e) {
-    return next(e)
+    return next(e);
   }
-})
+});
 
-module.exports = router
+module.exports = router;

@@ -1,5 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-const client = new PrismaClient();
+const { client } = require("../lib/prisma");
 
 module.exports = async function main() {
   // Create levels

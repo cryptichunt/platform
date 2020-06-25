@@ -1,6 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-
-const client = new PrismaClient();
+const { client } = require("./prisma");
 
 const userStateFromTileType = {
   GO: async () => "go-moveable",

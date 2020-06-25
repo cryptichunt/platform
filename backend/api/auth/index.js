@@ -1,10 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
-const { PrismaClient } = require("@prisma/client");
 const recaptcha = require("../../lib/recaptcha");
-const logs = require("../../lib/logs");
-
-const client = new PrismaClient();
+const { client } = require("../../lib/prisma");
 
 router.use("/verification", require("./verification"));
 router.post("/register", ...require("./register"));

@@ -1,6 +1,5 @@
-const { PrismaClient } = require("@prisma/client");
+const { client } = require("./prisma");
 const logs = require("./logs");
-const client = new PrismaClient();
 
 module.exports = {
   "go-moveable": (user) => async (req, res, next) =>

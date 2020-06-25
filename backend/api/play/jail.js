@@ -1,7 +1,6 @@
 const router = require("express").Router();
-const { PrismaClient } = require("@prisma/client");
 const logs = require("../../lib/logs");
-const client = new PrismaClient();
+const { client } = require("../../lib/prisma");
 
 router.post("/bribe", async (req, res, next) => {
   try {
