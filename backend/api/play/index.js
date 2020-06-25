@@ -109,6 +109,11 @@ router.post(
         req.body.goIn,
         req.body.goOut
       );
+
+      if (await checkCenter(req.user)) {
+        nextTileId = 81;
+      }
+
       console.log({ nextTileId });
 
       // Check if tile with id nextTileId exists

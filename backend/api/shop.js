@@ -1,10 +1,6 @@
 const router = require("express").Router();
-const yup = require("yup");
 const auth = require("../lib/auth");
-const { against } = require("../lib/validation");
-const recaptcha = require("../lib/recaptcha");
 const logs = require("../lib/logs");
-const shopItems = require("../config/shop-items");
 const { client } = require("../lib/prisma");
 
 router.use(auth.check);
@@ -28,3 +24,5 @@ router.post("/buy", async (req, res, next) => {
     return next(e);
   }
 });
+
+module.exports = router;

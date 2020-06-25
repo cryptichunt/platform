@@ -81,6 +81,7 @@ module.exports = {
         },
       };
 
+      console.log({ rc: ct.randomChanceType });
       types[ct.randomChanceType]();
     } catch (e) {
       next(e);

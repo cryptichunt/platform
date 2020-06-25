@@ -112,8 +112,7 @@ async function findUserState(user) {
   return state;
 }
 
-// const rollDice = () => Math.ceil(Math.random() * 6);
-const rollDice = () => 1;
+const rollDice = () => Math.ceil(Math.random() * 6);
 
 // Dice roll special cases:
 // currentTileId === 44: 0 + dice roll
@@ -169,15 +168,28 @@ const chooseRandomPerson = () => {
   return rp[random];
 };
 
-// TODO: Run this after level/answer and actionFromUserState['story']
-// const checkCenter = (user) => {
-//   const levelCount = await client.userLevel.count({where: {completed: true}})
-//   const storyTiles = await client.visitedTile.findMany({where: {}})
+const checkCenter = async (user) => {
+  const tiles = await client.visitedTile.findMany({
+    where: { userId: user.id },
+  });
+  const levels = await client.userLevel.findMany({
+    where: { userId: user.id },
+  });
 
-//   if(levelCount === 45) {
+  const vTiles = [];
 
-//   }
-// }
+  for (let tile of tiles) {
+    if (vTiles.indexOf(tile.tileId) === -1) {
+      vTiles.push(tile.tileId);
+    }
+  }
+
+  if (levels.length > 44 && vTiles.length > 79) {
+    return true;
+  }
+
+  return false;
+};
 
 module.exports = {
   findUserState,
@@ -186,4 +198,5 @@ module.exports = {
   rollDice,
   chooseRandomChance,
   chooseRandomPerson,
+  checkCenter,
 };

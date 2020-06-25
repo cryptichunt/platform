@@ -56,7 +56,7 @@ const shorten = {
   GATEI: "GT",
 };
 
-export const RenderTiles = ({ selectedTile, vTiles }) => {
+export const RenderTiles = ({ user, selectedTile, vTiles }) => {
   const { addToast } = useToasts();
 
   const handleClick = (t, visited, i) => async () => {
@@ -66,9 +66,15 @@ export const RenderTiles = ({ selectedTile, vTiles }) => {
       const r = await (await fetch(api(`/api/play/story/${i + 1}`))).json();
 
       if (r.tile?.story) {
+        const div = document.createElement("div");
+        div.innerHTML = r.tile.story;
+        div.style.textAlign = "left";
+        div.style.color = "#333";
+
         swal({
           title: `Story #${r.tile?.number}`,
-          text: r.tile?.story,
+          content: div,
+          html: true,
         });
       }
 
@@ -99,7 +105,7 @@ export const RenderTiles = ({ selectedTile, vTiles }) => {
             style={{ gridArea: t.gridArea }}
             key={i}
             selected={selectedTile === i}
-            visited={vTiles.indexOf(i + 1) !== -1}
+            visited={user.currentTileId === 81}
           >
             {t.type.substring(0, 4)}
           </Random>

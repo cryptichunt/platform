@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
+import { useToasts } from "react-toast-notifications";
 import AuthContext from "../lib/auth-context";
+import api from "../lib/api";
 import Layout from "../components/Layout";
 import { Button } from "../components/forms";
 
@@ -20,12 +22,33 @@ const ButtonContainer = styled.div`
 
 const Shop = () => {
   const { user, setUser } = useContext(AuthContext);
+  const { addToast } = useToasts();
+
+  const handleShop = async () => {
+    try {
+      const r = await (
+        await fetch(api("/api/shop/buy"), { method: "POST" })
+      ).json();
+
+      if (r.success) {
+        addToast("You bought a hint card, contact an admin to use it.", {
+          appearance: "success",
+        });
+        setUser(r.user);
+      } else {
+        addToast(r.message, { appearance: "error" });
+      }
+    } catch (e) {
+      addToast(e.message, { appearance: "error" });
+      console.error(e);
+    }
+  };
 
   return (
     <>
       <Heading>Shop</Heading>
       <ButtonContainer>
-        <Button disabled={user?.hasHintCard}>
+        <Button disabled={user?.hasHintCard} onClick={handleShop}>
           {user?.hasHintCard
             ? "You already have a hint card"
             : "Buy 1 Hint Card"}

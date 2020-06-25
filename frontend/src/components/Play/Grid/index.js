@@ -92,7 +92,14 @@ export default () => {
       <XScrollable>
         <Container>
           <RenderTiles
-            {...{ selectedTile, setSelectedTile, vTiles, reload, setReload }}
+            {...{
+              selectedTile,
+              setSelectedTile,
+              vTiles,
+              reload,
+              setReload,
+              user,
+            }}
           />
         </Container>
       </XScrollable>
