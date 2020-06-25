@@ -29,7 +29,7 @@ async function sendMail(email, url) {
 
 module.exports = [
   recaptcha.verify(),
-  against(require("./register-schema")),
+  // against(require("./register-schema")),
   async (req, res, next) => {
     try {
       const { email, username, password, discord, edu, name } = req.body;
