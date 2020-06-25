@@ -84,11 +84,11 @@ router.post(
       }
 
       if (req.session.userState === "gate-moveable" && req.body.goIn) {
-        const levels = await client.userLevel.count({
+        const levels = await client.userLevel.findMany({
           where: { completed: true, userId: req.user.id },
         });
 
-        if (levels < 24) {
+        if (levels.lengt < 24) {
           return res.json({ success: false, message: "Eh" });
         }
       }
