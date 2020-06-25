@@ -21,7 +21,7 @@ const StyledField = styled.input`
   text-indent: 20px;
   font-size: 1.1rem;
   background: #23272a;
-  width: 450px;
+  width: 95%;
   transition: border-color 0.3s ease;
   color: #fff;
 
@@ -34,14 +34,10 @@ const StyledField = styled.input`
   &::placeholder {
     color: #686d71;
   }
-
-  @media screen and (max-width: 450px) {
-    width: 300px;
-  }
 `;
 
 const Container = styled.div`
-  min-width: 500px;
+  min-width: 320px;
   width: 20vw;
   padding: 30px;
   border-radius: 5px;
