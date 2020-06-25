@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import Layout from '../components/Layout'
+import React from "react";
+import styled from "styled-components";
+import Layout from "../components/Layout";
 
 const terminalText = [
   {
@@ -10,9 +10,9 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat explanation.txt',
+    command: "cat explanation.txt",
     text:
-      'Greetings! Keeping in line with the cryptic nature of the event, and the CTF influence, the format and the rules of the event will be revealed in the form of a rolling release. 14 points will be released over the next 14 days. Check back every day and gain a new piece of information regarding the event. Happy hunting.',
+      "Greetings! Keeping in line with the cryptic nature of the event, and the CTF influence, the format and the rules of the event will be revealed in the form of a rolling release. 14 points will be released over the next 14 days. Check back every day and gain a new piece of information regarding the event. Happy hunting.",
   },
   {
     date: (
@@ -21,9 +21,9 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat day-one-rule.txt',
+    command: "cat day-one-rule.txt",
     text:
-      'Cryptocracy will start on the 19th of June at 12:00:00 PM IST and will end on 20th June at 11:59:59 PM IST.',
+      "The hunt will be held from 26th June 12:00 AM IST to 27th June 11:59 PM IST 2020. Till then, join our Discord server to stay updated.",
   },
   {
     date: (
@@ -32,7 +32,7 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat day-two-rule.txt',
+    command: "cat day-two-rule.txt",
     text: (
       <div>
         The hunt will be in the form of a board game. Every tile on the board
@@ -51,7 +51,7 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat day-three-rule.txt',
+    command: "cat day-three-rule.txt",
     text: (
       <div>
         The board will have 81 tiles in total - 8 tiles giving information
@@ -68,7 +68,7 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat day-four-rule.txt',
+    command: "cat day-four-rule.txt",
     text: (
       <div>
         Your movements, and your fate, will be decided by the roll of a virtual
@@ -89,7 +89,7 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat day-five-rule.txt',
+    command: "cat day-five-rule.txt",
     text: (
       <div>
         Answers will be lowercase, alphanumeric strings. Special characters are
@@ -104,7 +104,7 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat day-six-rule.txt',
+    command: "cat day-six-rule.txt",
     text: <div>You guys ever played Monopoly? </div>,
   },
   {
@@ -114,7 +114,7 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat day-seven-rule.txt',
+    command: "cat day-seven-rule.txt",
     text: (
       <div>
         Lead confirmations will remain open at all times. Participants can
@@ -129,7 +129,7 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat day-nine-rule.txt',
+    command: "cat day-nine-rule.txt",
     text: (
       <div>
         Teaming or forming alliances: now this has always been a controversial
@@ -151,7 +151,7 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat day-ten-rule.txt',
+    command: "cat day-ten-rule.txt",
     text: (
       <div>
         The Bounty System: a person can turn in the participant(s) who've
@@ -162,8 +162,8 @@ const terminalText = [
         within 30 minutes of them last approaching the player for answers.
         Methods of reporting including screenshots of conversations, audio
         recordings of calls, etc. Also, we're proud to announce that our
-        official sponsor is IvyAchievement! Check them out{' '}
-        <a href="https://www.ivyachievement.com/" style={{ color: 'inherit' }}>
+        official sponsor is IvyAchievement! Check them out{" "}
+        <a href="https://www.ivyachievement.com/" style={{ color: "inherit" }}>
           here
         </a>
         .
@@ -177,13 +177,13 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat day-eleven-rule.txt',
+    command: "cat day-eleven-rule.txt",
     text: (
       <div>
-        Prizes have been revealed, check them out{' '}
+        Prizes have been revealed, check them out{" "}
         <a
           href="https://www.instagram.com/p/CBWK36Hl995/?igshid=kws9jeec5w0j"
-          style={{ color: 'inherit' }}
+          style={{ color: "inherit" }}
         >
           here
         </a>
@@ -198,7 +198,7 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat day-twelve-rule.txt',
+    command: "cat day-twelve-rule.txt",
     text: (
       <div>
         The 4 corners of the map are:
@@ -228,17 +228,17 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat day-thirteen-rule.txt',
+    command: "cat day-thirteen-rule.txt",
     text: (
       <div>
-        Our promo video's out, here's a little{' '}
+        Our promo video's out, here's a little{" "}
         <a
           href="https://www.youtube.com/watch?v=Ne7H5zYWmRo"
           target="_blank"
           rel="noreferrer"
         >
           "teaser"
-        </a>{' '}
+        </a>{" "}
         for you :wink:
       </div>
     ),
@@ -250,14 +250,14 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat day-fourteen-rule.txt',
+    command: "cat day-fourteen-rule.txt",
     text: (
       <div>
         The final tile will be directly related to the underlying story. It will
         only be accessible once all other level tiles have been solved and story
         tiles have been interacted with. Being the final tile in the innermost
         square, it will reward the player with the maximum number of points,
-        however, the final level can only be solved by a single player.{' '}
+        however, the final level can only be solved by a single player.{" "}
       </div>
     ),
   },
@@ -268,7 +268,7 @@ const terminalText = [
         <br />
       </>
     ),
-    command: 'cat bonus-rule.txt',
+    command: "cat bonus-rule.txt",
     text: (
       <div>
         Cryptocracy Economy: The currency of cryptocracy is points. Your
@@ -299,15 +299,15 @@ const terminalText = [
     ),
   },
   {
-    command: 'sudo cat help.txt',
+    command: "sudo cat help.txt",
     commandText: (
       <>
-        <div style={{ display: 'block' }}>[sudo] password for villager:</div>
+        <div style={{ display: "block" }}>[sudo] password for villager:</div>
       </>
     ),
     text: (
       <div>
-        The story can be found{' '}
+        The story can be found{" "}
         <a
           href="https://docs.google.com/document/d/1FalOU_hKzum3LV-BzHBJdcOwJf3FyjokUGe_p2TwL9k/edit?usp=sharing"
           target="_blank"
@@ -315,7 +315,7 @@ const terminalText = [
         >
           here.
         </a>
-        <br />A short TL;DR can be found{' '}
+        <br />A short TL;DR can be found{" "}
         <a
           href="https://docs.google.com/document/d/1RTzJZ3STnN9jAFJcM2CPBQxwLZbOxqyqdIKsHdEOkm0/edit?usp=sharing"
           target="_blank"
@@ -327,11 +327,11 @@ const terminalText = [
     ),
   },
   {
-    command: 'sudo cat levels.txt',
+    command: "sudo cat levels.txt",
     text:
-      ' cat: levels.txt: No such file or directory. Check back on 19th June, 12:00:00 PM IST 2020 to participate in the event. We sincerely apologize for the delay. Happy hunting!',
+      " cat: levels.txt: No such file or directory. Check back again on 26th June 12:00 AM IST 2020. We sincerely apologize for the delay. Join our Discord server to stay updated. Happy hunting!",
   },
-]
+];
 
 const Terminal = styled.div`
   margin: auto;
@@ -348,12 +348,12 @@ const Terminal = styled.div`
     display: inline-block;
     font-size: 18px;
   }
-`
+`;
 
 const Tag = styled.div`
   color: #1793d1;
   font-weight: bold;
-`
+`;
 
 const Blinking = styled.span`
   div.blinking {
@@ -376,11 +376,11 @@ const Blinking = styled.span`
       color: #eee;
     }
   }
-`
+`;
 
 const MainTerminal = styled.div`
   padding: 50px;
-`
+`;
 
 export default () => (
   <Layout
@@ -392,7 +392,7 @@ export default () => (
     <MainTerminal>
       <Terminal>
         {terminalText.map(({ command, text, commandText, date }) => (
-          <div key={command} style={{ display: 'block' }}>
+          <div key={command} style={{ display: "block" }}>
             <Tag>[villager@archlinux ~]$ </Tag> {command}
             <br />
             {commandText}
@@ -400,7 +400,7 @@ export default () => (
             {text}
           </div>
         ))}
-        <div style={{ display: 'block' }}>
+        <div style={{ display: "block" }}>
           <Tag>[villager@archlinux ~]$ </Tag> cd Home
           <Blinking>
             <div className="blinking">|</div>
@@ -409,4 +409,4 @@ export default () => (
       </Terminal>
     </MainTerminal>
   </Layout>
-)
+);
