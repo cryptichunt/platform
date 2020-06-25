@@ -51,6 +51,21 @@ bot.on("message", async (msg) => {
       await msg.reply(res);
     }
 
+    if (command === "hint") {
+      const username = msg.content.split(" ")[2];
+
+      const { hasHintCard } = await client.user.findOne({
+        where: { username },
+      });
+
+      const res = hasHintCard
+        ? `${username} has a hint card`
+        : `${username} does not have a hint card`;
+
+      console.log(res);
+      await msg.reply(res);
+    }
+
     // Show suspicious activity
     if (command === "flagged") {
       // TODO: Get flagged logs with timestamps and usernames
@@ -65,7 +80,10 @@ bot.on("message", async (msg) => {
 
       const res = flaggedLogs
         .map(
-          (log) => `${log.createdAt.toLocaleTimeString("en-US")}: ${log.log}`
+          (log) =>
+            `${log.createdAt.toLocaleTimeString("en-US")}: (${log.userId}) ${
+              log.log
+            }`
         )
         .join("\n");
       console.log(res);
