@@ -14,6 +14,10 @@ const client = new PrismaClient({
       emit: "event",
       level: "warn",
     },
+    {
+      emit: "event",
+      level: "error",
+    },
   ],
 });
 

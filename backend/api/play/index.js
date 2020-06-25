@@ -88,7 +88,7 @@ router.post(
           where: { completed: true, userId: req.user.id },
         });
 
-        if (levels.lengt < 24) {
+        if (levels.length < 24) {
           return res.json({ success: false, message: "Eh" });
         }
       }
