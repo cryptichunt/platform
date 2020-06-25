@@ -1,0 +1,29 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateField",
+      "model": "Tile",
+      "field": "story",
+      "type": "String"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Level",
+      "field": "level",
+      "type": "String"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Riddle",
+      "field": "riddle",
+      "type": "String"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Log",
+      "field": "log",
+      "type": "String"
+    }
+  ]
+}

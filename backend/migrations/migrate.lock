@@ -1,3 +1,4 @@
 # Prisma Migrate lockfile v1
 
 20200624195700-init
+20200625162125-replace-json-types-with-strins
