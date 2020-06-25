@@ -6,6 +6,7 @@ const {
   findUserState,
   actionFromUserState,
   chooseRandomChance,
+  checkCenter,
   chooseRandomPerson,
   rollDice,
   calculateNextTileId,

@@ -56,7 +56,7 @@ const shorten = {
   GATEI: "GT",
 };
 
-export const RenderTiles = ({ user, selectedTile, vTiles }) => {
+export const RenderTiles = ({ selectedTile, vTiles, user }) => {
   const { addToast } = useToasts();
 
   const handleClick = (t, visited, i) => async () => {
