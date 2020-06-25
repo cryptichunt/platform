@@ -125,7 +125,12 @@ router.post(
 
       let points = req.user.points;
       let timesPassedGo = req.user.timesPassedGo;
-      if (oldTileId < 45 && tile.id < 7 && timesPassedGo < 6) {
+      if (
+        oldTileId > 39 &&
+        oldTileId < 45 &&
+        tile.id < 7 &&
+        timesPassedGo < 6
+      ) {
         await logs.add(
           req.user.id,
           `${req.user.username} passed the Go tile and was awarded 200 points`

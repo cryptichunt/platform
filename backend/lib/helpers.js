@@ -1,5 +1,4 @@
 const { PrismaClient } = require("@prisma/client");
-const logs = require("./logs");
 
 const client = new PrismaClient();
 
@@ -26,7 +25,7 @@ const userStateFromTileType = {
 
     return "level";
   },
-  RAND_CHANCE: async (ct) => "randchance-moveable",
+  RAND_CHANCE: async () => "randchance-moveable",
   RAND_PERSON: async (ct, user) => {
     if (ct.randomPersonType === "SPHINX") {
       const [riddle] = await client.userRiddle.findMany({
@@ -50,7 +49,7 @@ const userStateFromTileType = {
       VILLAGER: "rp-sidequest-skippable",
     }[ct.randomPersonType];
   },
-  JAIL: async (ct, user) => {
+  JAIL: async (_, user) => {
     return user.incarcerated ? "jail" : "jailvisiting-moveable";
   },
   GATE: async () => "gate-moveable",
@@ -90,6 +89,8 @@ async function findUserState(user) {
     take: 1,
     include: { tile: true },
   });
+
+  console.log({ currentTile });
 
   const tiles = await client.visitedTile.findMany({
     where: { tileId: currentTile.tileId, userId: user.id },

@@ -134,6 +134,8 @@ module.exports = {
     }),
   "mystery-moveable": (user, ct) => async (req, res, next) =>
     res.json({ success: true, user, message: "You're on the mystery tile" }),
+  "mystery-completed-moveable": (user, ct) => async (req, res, next) =>
+    res.json({ success: true, user, message: "You're on the mystery tile" }),
   "rp-riddle": (user, ct) => async (req, res, next) =>
     res.json({ success: true, user, message: "You encountered a sphinx" }),
   level: (user, ct) => async (req, res, next) =>
