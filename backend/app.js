@@ -44,14 +44,14 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.static(path.join(__dirname, "react_build")));
 app.use(cookieParser());
-app.use(
-  rateLimit({
-    windowMs: 1 * 60 * 1000, // 15 minutes
-    max: 30, // limit each IP to 100 requests per windowMs
-    handler: (req, res) =>
-      res.json({ status: "error", message: "Your IP has been rate limited" }),
-  })
-);
+// app.use(
+//   rateLimit({
+//     windowMs: 1 * 60 * 1000, // 15 minutes
+//     max: 30, // limit each IP to 100 requests per windowMs
+//     handler: (req, res) =>
+//       res.json({ status: "error", message: "Your IP has been rate limited" }),
+//   })
+// );
 app.use(
   session({
     store: new RedisStore({ client }),
