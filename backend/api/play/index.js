@@ -130,7 +130,7 @@ router.post(
       let points = req.user.points;
       let timesPassedGo = req.user.timesPassedGo;
       if (
-        oldTileId > 39 &&
+        oldTileId > 38 &&
         oldTileId < 45 &&
         tile.id < 7 &&
         timesPassedGo < 6
@@ -152,58 +152,72 @@ router.post(
         },
       });
 
-      const rc = chooseRandomChance();
-      const rp = chooseRandomPerson();
-
-      const vTile = await client.visitedTile.create({
-        data: {
-          tile: { connect: { id: tile.id } },
-          user: { connect: { id: req.user.id } },
-          randomChanceType: tile.type === "RAND_CHANCE" ? rc : null,
-          randomPersonType: tile.type === "RAND_PERSON" ? rp : null,
-        },
+      const [pTile] = await client.visitedTile.findMany({
+        where: { userId: req.user.id, tileId: tile.id },
       });
 
-      const m = {
-        STORY: "a story tile",
-        LEVEL: "a level tile",
-        RAND_PERSON: "a random person tile",
-        RAND_CHANCE: "a random chance tile",
-        GO: "the Go tile",
-        JAIL: "the Jail tile",
-        GATE: "the Gate tile",
-        MYSTERY: "the Mystery tile",
-        CENTER: "the Center tile",
-      };
+      let vTile;
+      if (!pTile) {
+        const rc = chooseRandomChance();
+        const rp = chooseRandomPerson();
 
-      if (tile.type === "RAND_CHANCE") {
-        const n = {
-          JAIL: "was caught evading taxes, they're being sent to jail",
-          BRIBE: "has to bribe the game",
-          BOUNTY: "was awarded a bounty by the game",
+        vTile = await client.visitedTile.create({
+          data: {
+            tile: { connect: { id: tile.id } },
+            user: { connect: { id: req.user.id } },
+            randomChanceType: tile.type === "RAND_CHANCE" ? rc : null,
+            randomPersonType: tile.type === "RAND_PERSON" ? rp : null,
+          },
+        });
+
+        const m = {
+          STORY: "a story tile",
+          LEVEL: "a level tile",
+          RAND_PERSON: "a random person tile",
+          RAND_CHANCE: "a random chance tile",
+          GO: "the Go tile",
+          JAIL: "the Jail tile",
+          GATE: "the Gate tile",
+          MYSTERY: "the Mystery tile",
+          CENTER: "the Center tile",
         };
 
-        await logs.add(req.user.id, `${req.user.username} ${n[rc]}`);
+        if (tile.type === "RAND_CHANCE") {
+          const n = {
+            JAIL: "was caught evading taxes, they're being sent to jail",
+            BRIBE: "has to bribe the game",
+            BOUNTY: "was awarded a bounty by the game",
+          };
+
+          await logs.add(req.user.id, `${req.user.username} ${n[rc]}`);
+        }
+
+        if (tile.type === "RAND_PERSON") {
+          const n = {
+            ALLY: "was greeted by an ally and given 50 points",
+            PICKPOCKET: "lost 50 points to a pickpocket",
+            SPHINX: "met a sphinx",
+            GUARD: "encountered a guard",
+            VILLAGER: "met a villager",
+          };
+
+          await logs.add(req.user.id, `${req.user.username} ${n[rp]}`);
+        }
+
+        await logs.add(
+          req.user.id,
+          `${req.user.username} moved to ${m[tile.type]}`
+        );
+
+        vTile.tile = tile;
+      } else {
+        vTile = await client.visitedTile.create({
+          data: {
+            tile: { connect: { id: tile.id } },
+            user: { connect: { id: req.user.id } },
+          },
+        });
       }
-
-      if (tile.type === "RAND_PERSON") {
-        const n = {
-          ALLY: "was greeted by an ally and given 50 points",
-          PICKPOCKET: "lost 50 points to a pickpocket",
-          SPHINX: "met a sphinx",
-          GUARD: "encountered a guard",
-          VILLAGER: "met a villager",
-        };
-
-        await logs.add(req.user.id, `${req.user.username} ${n[rp]}`);
-      }
-
-      await logs.add(
-        req.user.id,
-        `${req.user.username} moved to ${m[tile.type]}`
-      );
-
-      vTile.tile = tile;
 
       await actionFromUserState[await findUserState(req.user)](user, vTile)(
         req,
