@@ -51,6 +51,17 @@ bot.on("message", async (msg) => {
       await msg.reply(res);
     }
 
+    if (command === "unhint") {
+      const username = msg.content.split(" ")[2];
+
+      await client.user.update({
+        where: { username },
+        data: { hasHintCard: false },
+      });
+
+      await msg.reply(`Removed hint card for ${username}`);
+    }
+
     if (command === "hint") {
       const username = msg.content.split(" ")[2];
 
