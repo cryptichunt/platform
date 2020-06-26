@@ -1,4 +1,5 @@
-const router = require("express").Router();
+const express = require("express");
+const router = express.Router();
 const fs = require("fs");
 
 router.get("/lethifold", (_, res) =>
@@ -17,5 +18,7 @@ router.get("/discord.gg", (_, res) => {
 router.get("/dbz", (_, res) =>
   res.redirect("http://chall.cryptichunt.com:8080/fivethousand.tar.gz")
 );
+
+router.use("/KILLSHOT", express.static("./killshot"));
 
 module.exports = router;
