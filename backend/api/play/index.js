@@ -80,7 +80,10 @@ router.post(
         return next();
       }
 
-      if (req.session.userState.match(/skippable/)) {
+      if (
+        req.session.userState.match(/skippable/) ||
+        req.session.userState === "rp-riddle"
+      ) {
         return next();
       }
 
@@ -152,72 +155,58 @@ router.post(
         },
       });
 
-      const [pTile] = await client.visitedTile.findMany({
-        where: { userId: req.user.id, tileId: tile.id },
+      const rc = chooseRandomChance();
+      const rp = chooseRandomPerson();
+
+      const vTile = await client.visitedTile.create({
+        data: {
+          tile: { connect: { id: tile.id } },
+          user: { connect: { id: req.user.id } },
+          randomChanceType: tile.type === "RAND_CHANCE" ? rc : null,
+          randomPersonType: tile.type === "RAND_PERSON" ? rp : null,
+        },
       });
 
-      let vTile;
-      if (!pTile) {
-        const rc = chooseRandomChance();
-        const rp = chooseRandomPerson();
+      const m = {
+        STORY: "a story tile",
+        LEVEL: "a level tile",
+        RAND_PERSON: "a random person tile",
+        RAND_CHANCE: "a random chance tile",
+        GO: "the Go tile",
+        JAIL: "the Jail tile",
+        GATE: "the Gate tile",
+        MYSTERY: "the Mystery tile",
+        CENTER: "the Center tile",
+      };
 
-        vTile = await client.visitedTile.create({
-          data: {
-            tile: { connect: { id: tile.id } },
-            user: { connect: { id: req.user.id } },
-            randomChanceType: tile.type === "RAND_CHANCE" ? rc : null,
-            randomPersonType: tile.type === "RAND_PERSON" ? rp : null,
-          },
-        });
-
-        const m = {
-          STORY: "a story tile",
-          LEVEL: "a level tile",
-          RAND_PERSON: "a random person tile",
-          RAND_CHANCE: "a random chance tile",
-          GO: "the Go tile",
-          JAIL: "the Jail tile",
-          GATE: "the Gate tile",
-          MYSTERY: "the Mystery tile",
-          CENTER: "the Center tile",
+      if (tile.type === "RAND_CHANCE") {
+        const n = {
+          JAIL: "was caught evading taxes, they're being sent to jail",
+          BRIBE: "has to bribe the game",
+          BOUNTY: "was awarded a bounty by the game",
         };
 
-        if (tile.type === "RAND_CHANCE") {
-          const n = {
-            JAIL: "was caught evading taxes, they're being sent to jail",
-            BRIBE: "has to bribe the game",
-            BOUNTY: "was awarded a bounty by the game",
-          };
-
-          await logs.add(req.user.id, `${req.user.username} ${n[rc]}`);
-        }
-
-        if (tile.type === "RAND_PERSON") {
-          const n = {
-            ALLY: "was greeted by an ally and given 50 points",
-            PICKPOCKET: "lost 50 points to a pickpocket",
-            SPHINX: "met a sphinx",
-            GUARD: "encountered a guard",
-            VILLAGER: "met a villager",
-          };
-
-          await logs.add(req.user.id, `${req.user.username} ${n[rp]}`);
-        }
-
-        await logs.add(
-          req.user.id,
-          `${req.user.username} moved to ${m[tile.type]}`
-        );
-
-        vTile.tile = tile;
-      } else {
-        vTile = await client.visitedTile.create({
-          data: {
-            tile: { connect: { id: tile.id } },
-            user: { connect: { id: req.user.id } },
-          },
-        });
+        await logs.add(req.user.id, `${req.user.username} ${n[rc]}`);
       }
+
+      if (tile.type === "RAND_PERSON") {
+        const n = {
+          ALLY: "was greeted by an ally and given 50 points",
+          PICKPOCKET: "lost 50 points to a pickpocket",
+          SPHINX: "met a sphinx",
+          GUARD: "encountered a guard",
+          VILLAGER: "met a villager",
+        };
+
+        await logs.add(req.user.id, `${req.user.username} ${n[rp]}`);
+      }
+
+      await logs.add(
+        req.user.id,
+        `${req.user.username} moved to ${m[tile.type]}`
+      );
+
+      vTile.tile = tile;
 
       await actionFromUserState[await findUserState(req.user)](user, vTile)(
         req,

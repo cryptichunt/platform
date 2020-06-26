@@ -13,7 +13,10 @@ module.exports = {
 
   canPlay: (req, res, next) =>
     req.user
-      ? !req.user.emailVerified || !req.user.discordVerified
+      ? !req.user.emailVerified ||
+        !req.user.discordVerified ||
+        req.user.dqed ||
+        req.user.bountyBanned
         ? res.json({
             success: false,
             message: "Please verify your email",

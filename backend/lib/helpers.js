@@ -34,7 +34,7 @@ const userStateFromTileType = {
         ? "rp-riddle-skippable"
         : riddle.completed
         ? "rp-moveable"
-        : "rp-riddle-skippable";
+        : "rp-riddle";
     }
 
     if (ct.randomPersonType === "GUARD") {
