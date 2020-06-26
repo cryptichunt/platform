@@ -28,7 +28,7 @@ router.use(async (req, res, next) => {
 router.use("/guard", require("./guard"));
 router.use("/story", require("./story"));
 router.use("/gate", require("./gate"));
-router.use("/riddle", require("./riddle"));
+// router.use("/riddle", require("./riddle"));
 router.use("/jail", require("./jail"));
 
 router.get("/ping", async (req, res, next) => {

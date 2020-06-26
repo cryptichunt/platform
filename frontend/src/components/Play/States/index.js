@@ -10,6 +10,7 @@ import Guard from "./Guard";
 import Jail from "./Jail";
 import Mystery from "./Mystery";
 import SideQuest from "./SideQuest";
+import MinRiddle from "./MinRiddle";
 
 export default {
   "": () => <div>Loading...</div>,
@@ -19,9 +20,9 @@ export default {
   "levelsolved-moveable": Move,
   level: Level,
   "randchance-moveable": Move,
-  "rp-riddle-skippable": SkipRiddle,
+  "rp-riddle-skippable": MinRiddle,
   "rp-riddle-moveable": Move,
-  "rp-riddle": Riddle,
+  "rp-riddle": MinRiddle,
   "rp-moveable": Move,
   "rp-guard": Guard,
   "rp-guard-moveable": Move,
