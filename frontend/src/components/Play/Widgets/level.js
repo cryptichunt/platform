@@ -103,6 +103,11 @@ class Level extends React.Component {
 
   async handleSubmit() {
     try {
+      if (!this.state.answer.match(/[a-z0-9-;_.\[\]\{\}\?]+/)) {
+        this.props.toastManager.add("Invalid format", { appearance: "error" });
+        return;
+      }
+
       this.setState({ submitting: true });
       const r = await (
         await fetch(api("/api/levels/answer"), {
