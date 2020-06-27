@@ -16,10 +16,10 @@ const NavLogoSvg = styled.svg`
   width: auto;
   color: inherit;
   transform: translateX(-2vh);
-  color: #545454;
+  color: ${(p) => (p.selected ? "#fff" : "#545454")};
 `;
 
-export default () => (
+export default ({ selected }) => (
   <Container>
     <NavLogoSvg
       width="399"
@@ -27,6 +27,7 @@ export default () => (
       viewBox="0 0 399 400"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      selected={selected}
     >
       <path
         d="M385.4 42.8C356.4 24.3 322 13.5 285 13.5C182 13.5 98.5 97 98.5 200C98.5 303 182.1 386.5 285 386.5C321.7 386.5 355.8 375.9 384.7 357.7"

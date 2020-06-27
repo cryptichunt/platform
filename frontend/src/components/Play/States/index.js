@@ -11,6 +11,7 @@ import Jail from "./Jail";
 import Mystery from "./Mystery";
 import SideQuest from "./SideQuest";
 import MinRiddle from "./MinRiddle";
+import Finished from "./Finished";
 
 export default {
   "": () => <div>Loading...</div>,
@@ -35,4 +36,5 @@ export default {
   mystery: Level,
   "mystery-completed-moveable": Move,
   center: Level,
+  finished: Finished,
 };

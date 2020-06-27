@@ -227,7 +227,7 @@ class Level extends React.Component {
               disabled={
                 this.state.submitting ||
                 this.props.user?.points < 351 ||
-                this.state.lvl?.levelId === 47
+                this.state.lvl?.levelId > 45
               }
             >
               Skip

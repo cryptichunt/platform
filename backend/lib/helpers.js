@@ -77,7 +77,28 @@ const userStateFromTileType = {
 
     return "mystery";
   },
-  CENTER: async () => "center",
+  CENTER: async (ct, user) => {
+    let [lvl] = await client.userLevel.findMany({
+      where: { userId: user.id, levelId: ct.tile.levelId },
+      include: { level: true },
+    });
+
+    if (!lvl) {
+      lvl = await client.userLevel.create({
+        data: {
+          level: { connect: { id: ct.tile.levelId } },
+          user: { connect: { id: user.id } },
+          completed: false,
+        },
+      });
+    }
+
+    if (lvl.completed) {
+      return "finished";
+    }
+
+    return "center";
+  },
 };
 
 async function findUserState(user) {

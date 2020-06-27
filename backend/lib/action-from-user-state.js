@@ -156,12 +156,32 @@ module.exports = {
     res.json({ success: true, user, message: "You encountered a sphinx" }),
   jail: (user, ct) => async (req, res, next) =>
     res.json({ success: true, user, message: "You are in jail" }),
-  center: (user, ct) => async (req, res, next) =>
-    res.json({
-      success: true,
-      user,
-      message: "Congratulations for making it to the center tile",
-    }),
+  center: (user, ct) => async (req, res, next) => {
+    try {
+      let [lvl] = await client.userLevel.findMany({
+        where: { levelId: ct.tile.levelId, userId: user.id },
+      });
+
+      console.log({ lvl });
+
+      if (!lvl) {
+        lvl = await client.userLevel.create({
+          data: {
+            level: { connect: { id: ct.tile.levelId } },
+            user: { connect: { id: user.id } },
+          },
+        });
+      }
+
+      return res.json({
+        success: true,
+        user,
+        message: "Congratulations for making it to the center tile!",
+      });
+    } catch (e) {
+      return next(e);
+    }
+  },
   "gate-inner-moveable": (user, ct) => async (req, res, next) =>
     res.json({
       success: true,
