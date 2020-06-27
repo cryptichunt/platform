@@ -15,6 +15,13 @@ router.get("/discord.gg", (_, res) => {
   fs.createReadStream("./assets/WYkPG9E.png").pipe(res);
 });
 
+router.get("/slash", (_, res) => {
+  res.writeHead(200, {
+    "Content-Type": "image/png",
+  });
+  fs.createReadStream("./assets/sme.png").pipe(res);
+});
+
 router.get("/dbz", (_, res) =>
   res.redirect("http://chall.cryptichunt.com:8080/fivethousand.tar.gz")
 );
