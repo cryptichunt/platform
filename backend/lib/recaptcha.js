@@ -11,10 +11,6 @@ module.exports = {
         return res.json({ success: false, message: 'Recaptcha token missing' })
       }
 
-      if (req.body.recaptcha === process.env.RECAPTCHA_SKIP_TOKEN) {
-        return next()
-      }
-
       const { data } = await axios.get(
         `https://www.google.com/recaptcha/api/siteverify`,
         {

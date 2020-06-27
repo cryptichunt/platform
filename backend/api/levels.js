@@ -35,7 +35,8 @@ router.post(
       answer: yup
         .string()
         .required()
-        .matches(/[a-z0-9-;_.\[\]\{\}\?]+/),
+        .matches(/[a-z0-9-_.{}]+/)
+        .max(45),
     })
   ),
   async (req, res, next) => {
